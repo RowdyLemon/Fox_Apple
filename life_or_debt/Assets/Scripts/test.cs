@@ -12,4 +12,9 @@ public class test : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void tester()
+    {
+        Debug.Log(Game_Manager.instance.Player.Degree);
+    }
 }

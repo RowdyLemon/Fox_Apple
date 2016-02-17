@@ -18,7 +18,7 @@ public class Start_Screen : MonoBehaviour
 
     public void Game_Start()
     {
-        Game_Manager.instance.current_state = Game_Manager.Game_States.MAIN;
+        Game_Manager.instance.current_state = Game_Manager.Game_States.NAME_SELECTION;
         Game_Manager.instance.scene_loaded = false;
     }
 }

@@ -11,3 +11,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Start_Scene.unity
   - enabled: 1
     path: Assets/Scenes/Main_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Education_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Name_Selection_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Job_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/House_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Car_Scene.unity
