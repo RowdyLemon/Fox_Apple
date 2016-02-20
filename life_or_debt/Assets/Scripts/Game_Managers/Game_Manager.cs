@@ -22,6 +22,7 @@ public class Game_Manager : MonoBehaviour
     public string test;
     public bool scene_loaded;
 
+
 	// Use this for initialization
 	void Awake ()
     {
