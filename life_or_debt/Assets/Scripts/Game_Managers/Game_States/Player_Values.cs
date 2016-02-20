@@ -7,17 +7,33 @@ public class Player_Values : MonoBehaviour {
     public Sprite decent;
     public Sprite nice_car;
 
+    private GameObject Panel;
+    private GameObject Fun_Toggle;
+    private GameObject Work_Toggle;
 
     public Sprite Cheap_House;
     public Sprite Medium_House;
     public Sprite Large_House;
+
     // Use this for initialization
 	void Start () {
+        Panel = GameObject.Find("Modal_Panel");
+        GameObject.Find("Modal_Panel").SetActive(false);
+
+        Work_Toggle = GameObject.Find("Work_Toggle");
+        GameObject.Find("Work_Toggle").SetActive(false);
+        Fun_Toggle = GameObject.Find("Fun_Toggle");
+        GameObject.Find("Fun_Toggle").SetActive(false);
 
         // Fill in the players name
         GameObject Name_Update = GameObject.Find("PlayerName");
         Text Player_Name = Name_Update.GetComponent<Text>();
         Player_Name.text = Game_Manager.instance.Player.Name;
+
+        // Fill in happiness, job_name, and pay
+        GameObject.Find("Happiness").GetComponent<Text>().text = "Happiness: " + Game_Manager.instance.Player.Happiness.ToString();
+        GameObject.Find("Job_Name").GetComponent<Text>().text = "Current Job: " + Game_Manager.instance.Player.Player_Job.Name;
+        GameObject.Find("Pay").GetComponent<Text>().text = "Current Pay: $" + Game_Manager.instance.Player.Player_Job.Hourly_Wage.ToString() + "/hr";
 
         // Display the starting amount of debt
         GameObject Debt_Amount = GameObject.Find("Debt_Amount");
@@ -44,6 +60,41 @@ public class Player_Values : MonoBehaviour {
             Player_House.sprite = Large_House;
 	}
 	
+
+    public void Start_Day()
+    {
+        Debug.Log("test");
+        Fun_Toggle.SetActive(true);
+        Work_Toggle.SetActive(true);
+        Panel.SetActive(true);
+    }
+
+    public void Execute_Day()
+    {
+        if(Fun_Toggle.GetComponent<Toggle>().isOn)
+        {
+            GameObject.Find("Toggle_Group").GetComponent<ToggleGroup>().SetAllTogglesOff();
+            GameObject.Find("Modal_Panel").SetActive(false);
+            GameObject.Find("Work_Toggle").SetActive(false);
+            GameObject.Find("Fun_Toggle").SetActive(false);
+
+            Game_Manager.instance.Player.Happiness++;
+            GameObject.Find("Happiness").GetComponent<Text>().text = "Happiness: " + Game_Manager.instance.Player.Happiness.ToString();
+        }
+        else
+        {
+            GameObject.Find("Toggle_Group").GetComponent<ToggleGroup>().SetAllTogglesOff();
+            GameObject.Find("Modal_Panel").SetActive(false);
+            GameObject.Find("Work_Toggle").SetActive(false);
+            GameObject.Find("Fun_Toggle").SetActive(false);
+
+            Game_Manager.instance.Player.Happiness--;
+            GameObject.Find("Happiness").GetComponent<Text>().text = "Happiness: " + Game_Manager.instance.Player.Happiness.ToString();
+
+            Game_Manager.instance.Player.Debt -= Game_Manager.instance.Player.Player_Job.Hourly_Wage * 8;
+            GameObject.Find("Debt_Amount").GetComponent<Text>().text = "-$" + Game_Manager.instance.Player.Debt.ToString("N0");
+        }
+    }
 	// Update is called once per frame
 	void Update () {
 	

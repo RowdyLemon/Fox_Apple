@@ -38,11 +38,13 @@ public class Car {
         {
             Game_Manager.instance.Player.Player_Car = Decent;
             Game_Manager.instance.Player.Debt += Decent.Buy_Value;
+            Game_Manager.instance.Player.Happiness += 2;
         }
         else
         {
             Game_Manager.instance.Player.Player_Car = Quality;
             Game_Manager.instance.Player.Debt += Quality.Buy_Value;
+            Game_Manager.instance.Player.Happiness += 5;
         }
     }
 }

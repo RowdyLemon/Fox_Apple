@@ -18,6 +18,6 @@ public class Player {
         Degree = "";
         Name = "";
         Debt = 0;
-        Happiness = 0;
+        Happiness = 10;
     }
 }

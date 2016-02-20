@@ -15,6 +15,6 @@ public class test : MonoBehaviour {
 
     public void tester()
     {
-        Debug.Log(Game_Manager.instance.Player.Degree);
+        Debug.Log("yeah");
     }
 }
