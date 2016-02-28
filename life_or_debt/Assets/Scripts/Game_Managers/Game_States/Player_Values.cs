@@ -37,7 +37,7 @@ public class Player_Values : MonoBehaviour {
 
         // Display the starting amount of debt
         GameObject Debt_Amount = GameObject.Find("Debt_Amount");
-        Debt_Amount.GetComponent<Text>().text = "-$" + Game_Manager.instance.Player.Debt.ToString("N0");
+        Debt_Amount.GetComponent<Text>().text = "$" + Game_Manager.instance.Player.Debt.ToString("N0");
 
         // Display the car the player selected
         GameObject Car_Update = GameObject.Find("nice_car");
@@ -63,40 +63,49 @@ public class Player_Values : MonoBehaviour {
 
     public void Start_Day()
     {
-        Debug.Log("test");
         Fun_Toggle.SetActive(true);
         Work_Toggle.SetActive(true);
         Panel.SetActive(true);
+        GameObject.Find("Random_Event").GetComponent<Text>().text = "";
     }
 
     public void Execute_Day()
     {
+        Random_Event Event = new Random_Event();
+        string Description = Event.Execute_Event();
+
+        Panel.SetActive(false);
+        Fun_Toggle.SetActive(false);
+        Work_Toggle.SetActive(false);
+
+        // Increase happiness when fun is ticked
         if(Fun_Toggle.GetComponent<Toggle>().isOn)
         {
-            GameObject.Find("Toggle_Group").GetComponent<ToggleGroup>().SetAllTogglesOff();
-            GameObject.Find("Modal_Panel").SetActive(false);
-            GameObject.Find("Work_Toggle").SetActive(false);
-            GameObject.Find("Fun_Toggle").SetActive(false);
-
             Game_Manager.instance.Player.Happiness++;
             GameObject.Find("Happiness").GetComponent<Text>().text = "Happiness: " + Game_Manager.instance.Player.Happiness.ToString();
         }
+
+        // Increase money, decrease happiness when working
         else
         {
-            GameObject.Find("Toggle_Group").GetComponent<ToggleGroup>().SetAllTogglesOff();
-            GameObject.Find("Modal_Panel").SetActive(false);
-            GameObject.Find("Work_Toggle").SetActive(false);
-            GameObject.Find("Fun_Toggle").SetActive(false);
-
             Game_Manager.instance.Player.Happiness--;
             GameObject.Find("Happiness").GetComponent<Text>().text = "Happiness: " + Game_Manager.instance.Player.Happiness.ToString();
 
-            Game_Manager.instance.Player.Debt -= Game_Manager.instance.Player.Player_Job.Hourly_Wage * 8;
-            GameObject.Find("Debt_Amount").GetComponent<Text>().text = "-$" + Game_Manager.instance.Player.Debt.ToString("N0");
+            Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * 8;
+            GameObject.Find("Debt_Amount").GetComponent<Text>().text = "$" + Game_Manager.instance.Player.Debt.ToString("N0");
+        }
+        
+        // Random event when returned string isnt empty
+        if(Description != "")
+        {
+            GameObject.Find("Happiness").GetComponent<Text>().text = "Happiness: " + Game_Manager.instance.Player.Happiness.ToString();
+            GameObject Debt_Amount = GameObject.Find("Debt_Amount");
+            Debt_Amount.GetComponent<Text>().text = "$" + Game_Manager.instance.Player.Debt.ToString("N0");
+            GameObject.Find("Pay").GetComponent<Text>().text = "Current Pay: $" + Game_Manager.instance.Player.Player_Job.Hourly_Wage.ToString() + "/hr";
+            
+            // Display the message returned by Description.
+            GameObject.Find("Random_Event").GetComponent<Text>().text = Description;
         }
     }
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    
 }

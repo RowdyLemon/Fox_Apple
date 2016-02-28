@@ -31,17 +31,17 @@ public class House : MonoBehaviour {
         if (House_Name.Equals("Small_House"))
         {
             Game_Manager.instance.Player.Player_House = Small_House;
-            Game_Manager.instance.Player.Debt += Small_House.Buy_Value;
+            Game_Manager.instance.Player.Debt -= Small_House.Buy_Value;
         }
         else if (House_Name.Equals("Medium_House"))
         {
             Game_Manager.instance.Player.Player_House = Medium_House;
-            Game_Manager.instance.Player.Debt += Medium_House.Buy_Value;
+            Game_Manager.instance.Player.Debt -= Medium_House.Buy_Value;
         }
         else
         {
             Game_Manager.instance.Player.Player_House = Large_House;
-            Game_Manager.instance.Player.Debt += Large_House.Buy_Value;
+            Game_Manager.instance.Player.Debt -= Large_House.Buy_Value;
         }
     }
 }
