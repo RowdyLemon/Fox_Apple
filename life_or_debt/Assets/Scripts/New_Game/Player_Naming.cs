@@ -4,6 +4,17 @@ using UnityEngine.UI;
 
 public class Player_Naming : MonoBehaviour
 {
+    public GameObject choose_name;
+    public GameObject name_text;
+    public GameObject placeholder;
+
+    void Start ()
+    {
+        choose_name.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        name_text.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        placeholder.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+    }
+
     public void Name_Player()
     {
         GameObject Game_Obj = GameObject.Find("InputField");

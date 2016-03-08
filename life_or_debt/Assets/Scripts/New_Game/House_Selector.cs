@@ -1,8 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public class House_Selector : MonoBehaviour {
 
+    public GameObject small;
+    public GameObject medium;
+    public GameObject large;
+    public GameObject title;
+
+    void Start()
+    {
+        small.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        medium.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        large.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+    }
 
     public void House_Selection()
     {

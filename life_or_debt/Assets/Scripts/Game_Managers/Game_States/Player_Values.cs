@@ -15,6 +15,15 @@ public class Player_Values : MonoBehaviour {
     public Sprite Medium_House;
     public Sprite Large_House;
 
+    public GameObject player_name;
+    public GameObject debt;
+    public GameObject happiness;
+    public GameObject current_job;
+    public GameObject current_pay;
+    public GameObject work;
+    public GameObject have_fun;
+    public GameObject start_day;
+
     // Use this for initialization
 	void Start () {
         Panel = GameObject.Find("Modal_Panel");
@@ -40,25 +49,56 @@ public class Player_Values : MonoBehaviour {
         Debt_Amount.GetComponent<Text>().text = "$" + Game_Manager.instance.Player.Debt.ToString("N0");
 
         // Display the car the player selected
-        GameObject Car_Update = GameObject.Find("nice_car");
-        SpriteRenderer Player_Car = Car_Update.GetComponent<SpriteRenderer>();
+        //GameObject Car_Update = GameObject.Find("nice_car");
+        //SpriteRenderer Player_Car = Car_Update.GetComponent<SpriteRenderer>();
+        //if (Game_Manager.instance.Player.Player_Car.Name == "pos_car")
+        //    Player_Car.sprite = pos_car;
+        //else if (Game_Manager.instance.Player.Player_Car.Name == "decent")
+        //    Player_Car.sprite = decent;
+        //else
+        //    Player_Car.sprite = nice_car;
+
+        GameObject Car_Update = GameObject.Find("Car");
         if (Game_Manager.instance.Player.Player_Car.Name == "pos_car")
-            Player_Car.sprite = pos_car;
+            Car_Update.GetComponent<Image>().sprite = pos_car;
         else if (Game_Manager.instance.Player.Player_Car.Name == "decent")
-            Player_Car.sprite = decent;
+            Car_Update.GetComponent<Image>().sprite = decent;
         else
-            Player_Car.sprite = nice_car;
+            Car_Update.GetComponent<Image>().sprite = nice_car;
+
 
         // Display the selected house
-        GameObject House_Update = GameObject.Find("house_temp");
-        SpriteRenderer Player_House = House_Update.GetComponent<SpriteRenderer>();
+        //GameObject House_Update = GameObject.Find("house_temp");
+        //SpriteRenderer Player_House = House_Update.GetComponent<SpriteRenderer>();
+        //if (Game_Manager.instance.Player.Player_House.Buy_Value == 50000)
+        //    Player_House.sprite = Cheap_House;
+        //else if (Game_Manager.instance.Player.Player_House.Buy_Value == 150000)
+        //    Player_House.sprite = Medium_House;
+        //else
+        //    Player_House.sprite = Large_House;
+
+        GameObject House_Update = GameObject.Find("House");
         if (Game_Manager.instance.Player.Player_House.Buy_Value == 50000)
-            Player_House.sprite = Cheap_House;
+            House_Update.GetComponent<Image>().sprite = Cheap_House;
         else if (Game_Manager.instance.Player.Player_House.Buy_Value == 150000)
-            Player_House.sprite = Medium_House;
+            House_Update.GetComponent<Image>().sprite = Medium_House;
         else
-            Player_House.sprite = Large_House;
+            House_Update.GetComponent<Image>().sprite = Large_House;
+
+        Init();
 	}
+
+    private void Init()
+    {
+        player_name.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        debt.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        happiness.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size/2;
+        current_job.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        current_pay.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        work.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        have_fun.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        start_day.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+    }
 	
 
     public void Start_Day()

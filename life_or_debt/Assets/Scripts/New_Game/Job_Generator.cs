@@ -4,10 +4,30 @@ using UnityEngine.UI;
 public class Job_Generator : MonoBehaviour
 {
     GameObject Congrats_Text;
+
+    public GameObject choose_job;
+    public GameObject click_me;
+    public GameObject congrats;
+    public GameObject job_title;
+    public GameObject hourly_wage;
+    public GameObject continue_button;
+
     public void Awake()
     {
         Congrats_Text = GameObject.Find("Congrats");
         Congrats_Text.SetActive(false);
+        continue_button.SetActive(false);
+        Init();
+    }
+
+    public void Init()
+    {
+        choose_job.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        click_me.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        congrats.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        job_title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        hourly_wage.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        continue_button.GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
     }
 
     public void Job_Selection()
@@ -27,8 +47,9 @@ public class Job_Generator : MonoBehaviour
         GameObject Hourly_Wage = GameObject.Find("Hourly_Wage");
         Text Player_Wage = Hourly_Wage.GetComponent<Text>();
         Player_Wage.text = "$" + Game_Manager.instance.Player.Player_Job.Hourly_Wage.ToString() + "/hr";
-        
+
         // Display Continue button
+        continue_button.SetActive(true);
         GameObject Continue_Button = GameObject.Find("Text");
         Text Continue_Text = Continue_Button.GetComponent<Text>();
         Continue_Text.text = "Continue >";

@@ -22,6 +22,14 @@ public class Game_Manager : MonoBehaviour
     public string test;
     public bool scene_loaded;
 
+    //GUI Variables
+    private int font_size;
+
+
+
+    //Getters and Setters
+    public int Font_Size { get { return font_size; } }
+
 
 	// Use this for initialization
 	void Awake ()
@@ -34,8 +42,15 @@ public class Game_Manager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         scene_loaded = false;
         Player = new Player();
+        Init();
 	}
 	
+    // Initialize GUI variables
+    private void Init()
+    {
+        font_size = (int)(Screen.width * 0.018f);
+    }
+
 	// Update is called once per frame
 	void Update ()
     {

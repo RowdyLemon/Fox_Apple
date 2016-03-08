@@ -1,7 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public class Car_Selector : MonoBehaviour {
+
+    public GameObject cheap;
+    public GameObject medium;
+    public GameObject expensive;
+    public GameObject title;
+
+    void Start()
+    {
+        cheap.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        medium.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        expensive.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+    }
 
 	// Use this for initialization
     public void Car_Selection()
