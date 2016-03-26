@@ -7944,7 +7944,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Question 4: Pick Your Favorite Superhero:'
+  m_Text: 'Question 5: Pick Your Favorite Superhero:'
 --- !u!222 &1922711993
 CanvasRenderer:
   m_ObjectHideFlags: 0

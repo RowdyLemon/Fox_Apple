@@ -269,7 +269,7 @@ public class personality_quiz : MonoBehaviour
             thriftyness = 0;
 
         if (thriftyness > 10)
-            thriftyness = 0;
+            thriftyness = 10;
         if (mood > 10)
             mood = 10;
         if (laziness > 10)
