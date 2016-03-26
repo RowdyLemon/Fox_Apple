@@ -47,6 +47,7 @@ public class personality_quiz : MonoBehaviour
     private int laziness;
     private int thriftyness;
 
+    public GameObject title;
     public GameObject question_1;
     public GameObject question_2;
     public GameObject question_3;
@@ -71,6 +72,54 @@ public class personality_quiz : MonoBehaviour
         question_4.transform.localPosition = off_screen;
         question_5.transform.localPosition = off_screen;
         result.transform.localPosition = off_screen;
+        font_init();
+    }
+
+    private void font_init()
+    {
+        //question 1
+        title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        question_1.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size/2;
+        question_1.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_1.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_1.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_1.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_1.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        //question 2
+        question_2.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_2.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_2.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_2.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_2.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_2.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        //question 3
+        question_3.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_3.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_3.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_3.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_3.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_3.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        //question 4
+        question_4.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_4.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_4.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_4.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_4.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_4.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        //question 5
+        question_5.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_5.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_5.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_5.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_5.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        question_5.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        //Results
+        result.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        result.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        result.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        result.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        result.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
+        result.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
     }
 
     public void Question_1_Submit()
