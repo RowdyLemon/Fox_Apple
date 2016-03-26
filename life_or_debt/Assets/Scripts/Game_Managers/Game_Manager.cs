@@ -13,6 +13,7 @@ public class Game_Manager : MonoBehaviour
         CHOOSE_JOB,
         NAME_SELECTION,
         CAR_SELECTION,
+        PERSONALITY_QUIZ,
         MAIN
     };
 
@@ -103,6 +104,13 @@ public class Game_Manager : MonoBehaviour
                 {
                     scene_loaded = true;
                     SceneManager.LoadScene("Car_Scene");
+                }
+                break;
+            case Game_States.PERSONALITY_QUIZ:
+                if (!scene_loaded)
+                {
+                    scene_loaded = true;
+                    SceneManager.LoadScene("Personality_Quiz_Scene");
                 }
                 break;
         }

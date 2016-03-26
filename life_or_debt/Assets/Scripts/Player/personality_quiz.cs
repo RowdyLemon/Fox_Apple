@@ -32,19 +32,27 @@ public class personality_quiz : MonoBehaviour
         D) Blue (not spontaneous/thrifty)
     */
 
-    private int happy;
-    private int sad;
+    //private int happy;
+    //private int sad;
 
-    private int rest;
-    private int lazy;
 
-    private int thrifty;
-    private int thriftless;
+    //private int rest;
+    //private int lazy;
+
+    //private int thrifty;
+    //private int thriftless;
+
+    private int mood;
+    private int work_ethic;
+    private int laziness;
+    private int thriftyness;
 
     public GameObject question_1;
     public GameObject question_2;
     public GameObject question_3;
     public GameObject question_4;
+    public GameObject question_5;
+
     public GameObject result;
 
     private Vector2 off_screen;
@@ -52,17 +60,16 @@ public class personality_quiz : MonoBehaviour
 
     void Start()
     {
-        happy = 0;
-        sad = 0;
-        rest = 0;
-        lazy = 0;
-        thrifty = 0;
-        thriftless = 0;
+        mood = 0;
+        work_ethic = 0;
+        laziness = 0;
+        thriftyness = 0;
         off_screen = new Vector2(1000, 1000);
         on_screen = question_1.transform.localPosition;
         question_2.transform.localPosition = off_screen;
         question_3.transform.localPosition = off_screen;
         question_4.transform.localPosition = off_screen;
+        question_5.transform.localPosition = off_screen;
         result.transform.localPosition = off_screen;
     }
 
@@ -73,16 +80,19 @@ public class personality_quiz : MonoBehaviour
         {
             switch (t.name) {
                 case "Option_1":
-                    lazy += 5;
+                    laziness += 5;
+                    mood -= 2;
                     break;
                 case "Option_2":
-                    lazy += 2;
+                    laziness += 2;
                     break;
                 case "Option_3":
-                    rest += 2;
+                    work_ethic += 2;
+                    mood -= 1;  
                     break;
                 case "Option_4":
-                    rest += 5;
+                    work_ethic += 5;
+                    mood += 2;
                     break;
             }
         }
@@ -99,16 +109,19 @@ public class personality_quiz : MonoBehaviour
             switch (t.name)
             {
                 case "Option_1":
-                    thriftless += 5;
+                    thriftyness -= 5;
+                    mood += 1;
                     break;
                 case "Option_2":
-                    thriftless += 2;
+                    thriftyness -= 2;
+                    mood += 2;
                     break;
                 case "Option_3":
-                    thrifty += 2;
+                    thriftyness += 2;
+                    work_ethic += 1;
                     break;
                 case "Option_4":
-                    thrifty += 5;
+                    thriftyness += 5;
                     break;
             }
         }
@@ -124,16 +137,20 @@ public class personality_quiz : MonoBehaviour
             switch (t.name)
             {
                 case "Option_1":
-                    lazy += 5;
+                    laziness += 5;
+                    work_ethic -= 3;
                     break;
                 case "Option_2":
-                    lazy += 2;
+                    laziness += 2;
+                    work_ethic -= 1;
                     break;
                 case "Option_3":
-                    rest += 2;
+                    work_ethic += 2;
+                    laziness -= 2;
                     break;
                 case "Option_4":
-                    rest += 5;
+                    work_ethic += 5;
+                    mood -= 3;
                     break;
             }
         }
@@ -149,33 +166,89 @@ public class personality_quiz : MonoBehaviour
             switch (t.name)
             {
                 case "Option_1":
-                    rest += 5;
+                    work_ethic += 5;
                     break;
                 case "Option_2":
-                    happy += 6;
-                    lazy += 1;
+                    mood += 6;
+                    laziness += 1;
                     break;
                 case "Option_3":
-                    happy += 2;
-                    rest += 2;
+                    mood += 2;
+                    work_ethic += 2;
                     break;
                 case "Option_4":
-                    thrifty += 5;
+                    thriftyness += 5;
                     break;
             }
         }
         question_4.transform.localPosition = off_screen;
+        question_5.transform.localPosition = on_screen;
+    }
+
+
+    public void Question_5_Submit()
+    {
+        IEnumerable toggled = question_4.GetComponentInChildren<ToggleGroup>().ActiveToggles();
+        foreach (Toggle t in toggled)
+        {
+            switch (t.name)
+            {
+                case "Option_1":
+                    mood -= 4;
+                    work_ethic += 1;
+                    break;
+                case "Option_2":
+                    laziness -= 3;
+                    work_ethic += 2;
+                    break;
+                case "Option_3":
+                    thriftyness -= 2;
+                    work_ethic += 2;
+                    break;
+                case "Option_4":
+                    thriftyness -= 2;
+                    work_ethic -= 1;
+                    break;
+            }
+        }
+
+        if (laziness < 0)
+            laziness = 0;
+        if (mood < 0)
+            mood = 0;
+        if (thriftyness < 0)
+            thriftyness = 0;
+
+        if (thriftyness > 10)
+            thriftyness = 0;
+        if (mood > 10)
+            mood = 10;
+        if (laziness > 10)
+            laziness = 10;
+        if (work_ethic > 10)
+            work_ethic = 10;
+
+
+        question_5.transform.localPosition = off_screen;
         Results();
         result.transform.localPosition = on_screen;
     }
 
     private void Results()
     {
-        result.GetComponentsInChildren<Text>()[1].text = "Happy: " + happy;
-        result.GetComponentsInChildren<Text>()[2].text = "Sad: " + sad;
-        result.GetComponentsInChildren<Text>()[3].text = "Work Ethic: " + rest;
-        result.GetComponentsInChildren<Text>()[4].text = "Laziness: " + lazy;
-        result.GetComponentsInChildren<Text>()[5].text = "Thriftyness: " + thrifty;
-        result.GetComponentsInChildren<Text>()[6].text = "Thriftlessness: " + thriftless;
+        result.GetComponentsInChildren<Text>()[1].text = "Mood: " + mood;
+        result.GetComponentsInChildren<Text>()[2].text = "Work ethic: " + work_ethic;
+        result.GetComponentsInChildren<Text>()[3].text = "Laziness: " + laziness;
+        result.GetComponentsInChildren<Text>()[4].text = "Thriftyness: " + thriftyness;
+
+        base_trait Player_Trait = new base_trait(mood, work_ethic, laziness, thriftyness);
+        Game_Manager.instance.Player.Player_Traits = Player_Trait;
+
+    }
+
+    public void next_scene()
+    {
+        Game_Manager.instance.current_state = Game_Manager.Game_States.CHOOSE_EDUCATION;
+        Game_Manager.instance.scene_loaded = false;
     }
 }

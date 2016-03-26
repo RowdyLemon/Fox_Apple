@@ -21,3 +21,5 @@ EditorBuildSettings:
     path: Assets/Scenes/House_Scene.unity
   - enabled: 1
     path: Assets/Scenes/Car_Scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Personality_Quiz_Scene.unity
