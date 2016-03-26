@@ -10,6 +10,9 @@ public class Player {
     public int Debt;
     public int Happiness;
     public base_trait Player_Traits;
+    public int Time_Played;
+    public int Promotion_Count;
+    public int Rested;
 
     public Player()
     {
@@ -21,5 +24,8 @@ public class Player {
         Debt = 0;
         Happiness = 10;
         Player_Traits = new base_trait();
+        Time_Played = 0;
+        Promotion_Count = 0;
+        Rested = 10;
     }
 }
