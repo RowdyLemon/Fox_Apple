@@ -4,13 +4,11 @@ using UnityEngine.UI;
 
 public class Start_Screen : MonoBehaviour
 {
-    public GameObject Title;
     public GameObject play_button;
 
 	// Use this for initialization
 	void Start ()
     {
-        Title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 5;
         play_button.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 3;
 	}
 	
