@@ -9,6 +9,7 @@ public class Player {
     public string Name;
     public int Debt;
     public int Happiness;
+    public base_trait Player_Traits;
 
     public Player()
     {
@@ -19,5 +20,6 @@ public class Player {
         Name = "";
         Debt = 0;
         Happiness = 10;
+        Player_Traits = new base_trait();
     }
 }
