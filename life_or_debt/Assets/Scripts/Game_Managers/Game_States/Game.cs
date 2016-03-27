@@ -106,7 +106,7 @@ public class Game : MonoBehaviour
     {
         int job_level = Game_Manager.instance.Player.Job_Level;
 
-        if (job_level > 2)
+        if (job_level >= 2)
             return;
 
         if(Game_Manager.instance.Player.Promotion_Count == 100)
@@ -138,7 +138,8 @@ public class Game : MonoBehaviour
             time.GetComponentsInChildren<Text>()[3].text = "0";
 
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
-            random_event.Execute_Event();
+            string r_event = random_event.Execute_Event();
+            set_bottom_values(r_event);
         }
         else
         {
@@ -173,6 +174,12 @@ public class Game : MonoBehaviour
         time.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
         time.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
         time.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+    }
+
+    private void set_bottom_values(string s)
+    {
+        if(!(string.IsNullOrEmpty(s)))
+            bottom.GetComponentsInChildren<Text>()[1].text = s;
     }
 
     private void set_top_values()
