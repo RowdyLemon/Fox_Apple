@@ -33,6 +33,9 @@ public class Game : MonoBehaviour
         set_top_values();
         set_side_values();
         bar_full = GameObject.Find("happiness_bar_empty").GetComponent<RectTransform>().rect.width;
+        happiness_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
+        rest_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
+        job_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         alter_bar_values();
         day = 0;
         hour = 0;
@@ -50,6 +53,7 @@ public class Game : MonoBehaviour
 
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + 10 > 100) ? 100 : Game_Manager.instance.Player.Happiness + 10;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
+        alter_bar_values();
     }
 
     public void entertainment(Entertainment_Param entertainment_param)
@@ -73,6 +77,7 @@ public class Game : MonoBehaviour
 
         promotion_check();
         rested_check();
+        alter_bar_values();
     }
 
     // Helper Functions
