@@ -7,6 +7,11 @@ public class Game : MonoBehaviour
 {
 
     public GameObject top;
+    public GameObject side;
+    public GameObject bottom;
+    public GameObject go_to_work;
+    public GameObject go_out;
+    public GameObject time;
     public GameObject happiness;
 
 	// Use this for initialization
@@ -112,6 +117,25 @@ public class Game : MonoBehaviour
         top.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
         top.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size * 2;
         top.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size * 2;
+
+        side.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[6].fontSize = Game_Manager.instance.Font_Size;
+
+        bottom.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size;
+        bottom.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+
+        go_to_work.GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
+        go_out.GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
+
+        time.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size;
+        time.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        time.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
+        time.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
     }
 
     private void set_top_values()
