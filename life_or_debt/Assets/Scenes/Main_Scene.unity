@@ -118,7 +118,9 @@ MonoBehaviour:
   go_to_work: {fileID: 2098259165}
   go_out: {fileID: 838242830}
   time: {fileID: 2141820619}
-  happiness: {fileID: 0}
+  happiness_bar: {fileID: 588281731}
+  rest_bar: {fileID: 906477341}
+  job_bar: {fileID: 1961886129}
 --- !u!4 &4340969
 Transform:
   m_ObjectHideFlags: 0
