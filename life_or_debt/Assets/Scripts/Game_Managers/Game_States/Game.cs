@@ -130,6 +130,7 @@ public class Game : MonoBehaviour
 
     private void day_passed(int amount)
     {
+        bottom.GetComponentsInChildren<Text>()[1].text = "";   
         Game_Manager.instance.Player.Time_Played += amount;
         hour = Game_Manager.instance.Player.Time_Played % 24;
         bool day_passed = false;
@@ -141,6 +142,7 @@ public class Game : MonoBehaviour
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
             string r_event = random_event.Execute_Event();
             set_bottom_values(r_event);
+            set_top_values();
         }
         time.GetComponentsInChildren<Text>()[2].text = day.ToString();
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
