@@ -1598,7 +1598,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 838242833}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4340968}
+        m_MethodName: entertainment
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11410300, guid: bd055fd14cf257546add5a1c3eb1cead,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Entertainment_Param, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &838242833
@@ -3993,7 +4005,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2098259168}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4340968}
+        m_MethodName: work
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2098259168

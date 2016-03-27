@@ -52,20 +52,20 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
     }
 
-    public void entertainment(int amount, int cost, int happiness_change)
+    public void entertainment(Entertainment_Param entertainment_param)
     {
-        day_passed(amount);
-
-        Game_Manager.instance.Player.Debt -= cost;
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_change > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_change;
-
+        day_passed(entertainment_param.amount);
+        Game_Manager.instance.Player.Debt -= entertainment_param.cost;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + entertainment_param.happiness_change > 100) ? 100 : Game_Manager.instance.Player.Happiness + entertainment_param.happiness_change;
+        Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
+        alter_bar_values();
     }
 
     public void work(int amount)
     {
         day_passed(amount);
 
-        Game_Manager.instance.Player.Promotion_Count++;
+        Game_Manager.instance.Player.Promotion_Count += 10;
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 10 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
@@ -84,7 +84,7 @@ public class Game : MonoBehaviour
     private void rested_check()
     {
         if (Game_Manager.instance.Player.Rested < 40)
-            Game_Manager.instance.Player.Promotion_Count--;
+            Game_Manager.instance.Player.Promotion_Count-=10;
     }
 
     private void happiness_check()
@@ -103,7 +103,7 @@ public class Game : MonoBehaviour
         if (job_level > 2)
             return;
 
-        if(Game_Manager.instance.Player.Promotion_Count == 15)
+        if(Game_Manager.instance.Player.Promotion_Count == 100)
         {
             // Promotion
             float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
@@ -182,10 +182,47 @@ public class Game : MonoBehaviour
 
     private void alter_bar_values()
     {
-        double happy_bar = bar_full - (bar_full) * ((double)Game_Manager.instance.Player.Happiness / 100.0);
-        Debug.Log(happy_bar);
-        happiness_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-        //happiness_bar.transform.Translate(new Vector3((float)happy_bar, 0f, 0f));
-        happiness_bar.GetComponent<RectTransform>().sizeDelta = new Vector3(-(float)happy_bar, 0);
+        double h_bar = bar_full - (bar_full) * ((double)Game_Manager.instance.Player.Happiness / 100.0);
+        happiness_bar.GetComponent<RectTransform>().sizeDelta = new Vector3(-(float)h_bar, 0f);
+        if (Game_Manager.instance.Player.Happiness <= 25)
+        {
+            happiness_bar.GetComponentsInChildren<Image>()[0].color = new Color(255, 0, 0);
+            happiness_bar.GetComponentsInChildren<Image>()[1].color = new Color(255, 0, 0);
+            happiness_bar.GetComponentsInChildren<Image>()[2].color = new Color(255, 0, 0);
+        }
+        else if (Game_Manager.instance.Player.Happiness <= 60)
+        {
+            happiness_bar.GetComponentsInChildren<Image>()[0].color = new Color(255, 204, 0);
+            happiness_bar.GetComponentsInChildren<Image>()[1].color = new Color(255, 204, 0);
+            happiness_bar.GetComponentsInChildren<Image>()[2].color = new Color(255, 204, 0);
+        }
+        else
+        {
+            happiness_bar.GetComponentsInChildren<Image>()[0].color = new Color(0, 204, 0);
+            happiness_bar.GetComponentsInChildren<Image>()[1].color = new Color(0, 204, 0);
+            happiness_bar.GetComponentsInChildren<Image>()[2].color = new Color(0, 204, 0);
+        }
+        double r_bar = bar_full - (bar_full) * ((double)Game_Manager.instance.Player.Rested / 100.0);
+        rest_bar.GetComponent<RectTransform>().sizeDelta = new Vector3(-(float)r_bar, 0f);
+        if (Game_Manager.instance.Player.Rested <= 25)
+        {
+            rest_bar.GetComponentsInChildren<Image>()[0].color = new Color(255, 0, 0);
+            rest_bar.GetComponentsInChildren<Image>()[1].color = new Color(255, 0, 0);
+            rest_bar.GetComponentsInChildren<Image>()[2].color = new Color(255, 0, 0);
+        }
+        else if (Game_Manager.instance.Player.Rested <= 60)
+        {
+            rest_bar.GetComponentsInChildren<Image>()[0].color = new Color(255, 204, 0);
+            rest_bar.GetComponentsInChildren<Image>()[1].color = new Color(255, 204, 0);
+            rest_bar.GetComponentsInChildren<Image>()[2].color = new Color(255, 204, 0);
+        }
+        else
+        {
+            rest_bar.GetComponentsInChildren<Image>()[0].color = new Color(0, 204, 0);
+            rest_bar.GetComponentsInChildren<Image>()[1].color = new Color(0, 204, 0);
+            rest_bar.GetComponentsInChildren<Image>()[2].color = new Color(0, 204, 0);
+        }
+        double w_bar = bar_full - (bar_full) * ((double)Game_Manager.instance.Player.Promotion_Count / 100.0);
+        job_bar.GetComponent<RectTransform>().sizeDelta = new Vector3(-(float)w_bar, 0f);
     }
 }
