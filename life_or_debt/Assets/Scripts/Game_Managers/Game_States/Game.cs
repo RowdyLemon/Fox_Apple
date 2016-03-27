@@ -18,6 +18,8 @@ public class Game : MonoBehaviour
     public GameObject rest_bar;
     public GameObject job_bar;
 
+    private Random_Event random_event = new Random_Event();
+
     private double bar_full; // player bars full width
 
 	// Use this for initialization
@@ -43,8 +45,8 @@ public class Game : MonoBehaviour
     {      
         day_passed(amount);
 
-        Game_Manager.instance.Player.Happiness += 10;
-        Game_Manager.instance.Player.Rested += 10;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + 10 > 100) ? 100 : Game_Manager.instance.Player.Happiness + 10;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
         Game_Manager.instance.Player.Time_Played += amount;
     }
 
@@ -64,8 +66,9 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Promotion_Count+=10;
         Game_Manager.instance.Player.Time_Played += amount;
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
-        Game_Manager.instance.Player.Happiness -= 10;
-        Game_Manager.instance.Player.Rested -= 10;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 10 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
+
 
         promotion_check();
         rested_check();
@@ -119,7 +122,11 @@ public class Game : MonoBehaviour
     private void day_passed(int amount)
     {
         if ((Game_Manager.instance.Player.Time_Played + amount) % 24 == 0)
-            Game_Manager.instance.Player.Happiness -= 5;
+        {
+            Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
+            random_event.Execute_Event();
+        }
+
         // anything else we want to happen overnight
     }
 

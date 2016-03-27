@@ -37,11 +37,13 @@ public class House : MonoBehaviour {
         {
             Game_Manager.instance.Player.Player_House = Medium_House;
             Game_Manager.instance.Player.Debt -= Medium_House.Buy_Value;
+            Game_Manager.instance.Player.Happiness += 10;
         }
         else
         {
             Game_Manager.instance.Player.Player_House = Large_House;
             Game_Manager.instance.Player.Debt -= Large_House.Buy_Value;
+            Game_Manager.instance.Player.Happiness += 15;
         }
     }
 }
