@@ -13,6 +13,7 @@ public class Player {
     public int Time_Played;
     public int Promotion_Count;
     public int Rested;
+    public int Job_Level;
 
     public Player()
     {
@@ -22,10 +23,11 @@ public class Player {
         Degree = "";
         Name = "";
         Debt = 0;
-        Happiness = 10;
+        Happiness = 50;
         Player_Traits = new base_trait();
         Time_Played = 0;
         Promotion_Count = 0;
-        Rested = 10;
+        Rested = 50;
+        Job_Level = 0;
     }
 }

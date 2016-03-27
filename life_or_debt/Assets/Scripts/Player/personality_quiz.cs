@@ -263,17 +263,22 @@ public class personality_quiz : MonoBehaviour
 
         if (laziness < 0)
             laziness = 0;
+
         if (mood < 0)
             mood = 0;
+
         if (thriftyness < 0)
             thriftyness = 0;
 
         if (thriftyness > 10)
             thriftyness = 10;
+
         if (mood > 10)
             mood = 10;
+
         if (laziness > 10)
             laziness = 10;
+
         if (work_ethic > 10)
             work_ethic = 10;
 

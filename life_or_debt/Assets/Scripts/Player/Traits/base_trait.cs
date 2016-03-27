@@ -39,9 +39,15 @@ public class base_trait
 
 
         if (player_laziness < 5)
+        {
             rest_rate = 1.2;
+            
+        }
         else if (player_laziness > 8)
+        {
             rest_rate = .8;
+            Game_Manager.instance.Player.Rested -= 10;
+        }
         else
             rest_rate = 1;
 
