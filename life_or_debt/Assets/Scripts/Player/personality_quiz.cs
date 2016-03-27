@@ -282,6 +282,9 @@ public class personality_quiz : MonoBehaviour
         if (work_ethic > 10)
             work_ethic = 10;
 
+        if (work_ethic < 0)
+            work_ethic = 0;
+
 
         question_5.transform.localPosition = off_screen;
         Results();
