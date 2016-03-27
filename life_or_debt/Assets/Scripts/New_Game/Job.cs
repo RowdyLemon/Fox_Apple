@@ -10,7 +10,7 @@ public class Job {
 
     private Job[] Jobs = new Job[9];
 
-    public LinkedList<string>[] Job_Progression = new LinkedList<string>[9];
+    private LinkedList<string>[] Job_Progression = new LinkedList<string>[9];
 
     //public Dictionary<string, LinkedList<string>> Job_Progression = new Dictionary<string, LinkedList<string>>();
  
@@ -22,7 +22,7 @@ public class Job {
 
         Jobs[0] = new Job(8, "Barista", "Bachelor's", 0);
         Jobs[1] = new Job(12, "Hostess", "Bachelor's", 1);
-        Jobs[2] = new Job(20, "IT", "Bachelor's", 2);
+        Jobs[2] = new Job(20, "IT Technician", "Bachelor's", 2);
 
         Jobs[3] = new Job(15, "Bank Teller", "Master's", 3);
         Jobs[4] = new Job(30, "Salesmen", "Master's", 4);
@@ -41,7 +41,7 @@ public class Job {
             Hourly_Wage = hourly_wage;
             Name = name;
             Education_Requirement = ed_requirement;
-            Job_Id = job_id;
+            this.Job_Id = job_id;
     }
 
     public void Job_Choice(string Degree)
@@ -61,6 +61,7 @@ public class Job {
         Game_Manager.instance.Player.Player_Job.Hourly_Wage = Player_Job.Hourly_Wage;
         Game_Manager.instance.Player.Player_Job.Name = Player_Job.Name;
         Game_Manager.instance.Player.Player_Job.Education_Requirement = Player_Job.Education_Requirement;
+        Game_Manager.instance.Player.Player_Job.Job_Id = Player_Job.Job_Id;
     }
 
     private void Populate_Job_Progression()
@@ -117,9 +118,9 @@ public class Job {
 
     }
 
-    public void Promotion(int job_id)
+    public void Promotion()
     {
-        Game_Manager.instance.Player.Player_Job.Name = Job_Progression[job_id].First.Value;
-        Job_Progression[job_id].RemoveFirst();
+        Game_Manager.instance.Player.Player_Job.Name = Job_Progression[Job_Id].First.Value;
+        Job_Progression[Job_Id].RemoveFirst();
     }
 }

@@ -68,8 +68,9 @@ public class Game : MonoBehaviour
     public void work(int amount)
     {
         day_passed(amount);
-
+        Debug.Log("pre work count: " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Promotion_Count += 10;
+        Debug.Log("post work count: " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 10 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
@@ -118,10 +119,11 @@ public class Game : MonoBehaviour
 
             if(job_level < 2)
             {
-                Game_Manager.instance.Player.Player_Job.Promotion(Game_Manager.instance.Player.Player_Job.Job_Id);
+                Game_Manager.instance.Player.Player_Job.Promotion();
                 Game_Manager.instance.Player.Job_Level++;
             }
             Game_Manager.instance.Player.Promotion_Count = 0;
+            set_side_values();
         }
     }
 
