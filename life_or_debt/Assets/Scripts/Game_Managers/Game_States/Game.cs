@@ -13,6 +13,7 @@ public class Game : MonoBehaviour
     public GameObject go_out;
     public GameObject time;
 
+
     // Player bars
     public GameObject happiness_bar;
     public GameObject rest_bar;
@@ -22,6 +23,9 @@ public class Game : MonoBehaviour
 
     private double bar_full; // player bars full width
 
+    private int day;
+    private int hour;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -30,6 +34,8 @@ public class Game : MonoBehaviour
         set_side_values();
         bar_full = GameObject.Find("happiness_bar_empty").GetComponent<RectTransform>().rect.width;
         alter_bar_values();
+        day = 0;
+        hour = 0;
     }
 	
 	// Update is called once per frame
@@ -44,7 +50,6 @@ public class Game : MonoBehaviour
 
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + 10 > 100) ? 100 : Game_Manager.instance.Player.Happiness + 10;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
-        Game_Manager.instance.Player.Time_Played += amount;
     }
 
     public void entertainment(int amount, int cost, int happiness_change)
@@ -53,7 +58,6 @@ public class Game : MonoBehaviour
 
         Game_Manager.instance.Player.Debt -= cost;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_change > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_change;
-        Game_Manager.instance.Player.Time_Played += amount;
 
     }
 
@@ -62,7 +66,6 @@ public class Game : MonoBehaviour
         day_passed(amount);
 
         Game_Manager.instance.Player.Promotion_Count++;
-        Game_Manager.instance.Player.Time_Played += amount;
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 10 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
@@ -88,7 +91,7 @@ public class Game : MonoBehaviour
     {
         if(Game_Manager.instance.Player.Happiness < 50)
         {
-            Game_Manager.instance.Player.Rested -= 10;
+            Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
             rested_check();
         }
     }
@@ -119,10 +122,21 @@ public class Game : MonoBehaviour
 
     private void day_passed(int amount)
     {
-        if ((Game_Manager.instance.Player.Time_Played + amount) % 24 == 0)
+        Game_Manager.instance.Player.Time_Played += amount;
+        hour = Game_Manager.instance.Player.Time_Played % 24;
+        day = Game_Manager.instance.Player.Time_Played / 24;
+        if (hour == 0)
         {
+            time.GetComponentsInChildren<Text>()[2].text = day.ToString();
+            time.GetComponentsInChildren<Text>()[3].text = "0";
+
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
             random_event.Execute_Event();
+        }
+        else
+        {
+            time.GetComponentsInChildren<Text>()[2].text = day.ToString();
+            time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
         }
 
         // anything else we want to happen overnight
