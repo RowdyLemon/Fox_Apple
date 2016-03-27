@@ -49,25 +49,24 @@ public class Game : MonoBehaviour
 
     public void rest(int amount)
     {      
-        day_passed(amount);
-
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + 10 > 100) ? 100 : Game_Manager.instance.Player.Happiness + 10;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
+        day_passed(amount);
         alter_bar_values();
     }
 
     public void entertainment(Entertainment_Param entertainment_param)
     {
-        day_passed(entertainment_param.amount);
         Game_Manager.instance.Player.Debt -= entertainment_param.cost;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + entertainment_param.happiness_change > 100) ? 100 : Game_Manager.instance.Player.Happiness + entertainment_param.happiness_change;
         Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
+        day_passed(entertainment_param.amount);
         alter_bar_values();
+        set_top_values();
     }
 
     public void work(int amount)
     {
-        day_passed(amount);
         Debug.Log("pre work count: " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Promotion_Count += 10;
         Debug.Log("post work count: " + Game_Manager.instance.Player.Promotion_Count);
@@ -78,7 +77,9 @@ public class Game : MonoBehaviour
 
         promotion_check();
         rested_check();
+        day_passed(amount);
         alter_bar_values();
+        set_top_values();
     }
 
     // Helper Functions
@@ -131,20 +132,17 @@ public class Game : MonoBehaviour
     {
         Game_Manager.instance.Player.Time_Played += amount;
         hour = Game_Manager.instance.Player.Time_Played % 24;
+        bool day_passed = false;
+        if (day < Game_Manager.instance.Player.Time_Played / 24)
+            day_passed = true;
         day = Game_Manager.instance.Player.Time_Played / 24;
-        if (hour == 0)
+        if (day_passed)
         {
-            time.GetComponentsInChildren<Text>()[2].text = day.ToString();
-            time.GetComponentsInChildren<Text>()[3].text = "0";
-
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
             random_event.Execute_Event();
         }
-        else
-        {
-            time.GetComponentsInChildren<Text>()[2].text = day.ToString();
-            time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
-        }
+        time.GetComponentsInChildren<Text>()[2].text = day.ToString();
+        time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
 
         // anything else we want to happen overnight
     }
