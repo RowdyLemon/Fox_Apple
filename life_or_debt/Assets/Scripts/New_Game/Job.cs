@@ -10,7 +10,7 @@ public class Job {
 
     private Job[] Jobs = new Job[9];
 
-    private LinkedList<string>[] Job_Progression = new LinkedList<string>[9];
+    private ArrayList[] Job_Progression = new ArrayList[9];
 
     //public Dictionary<string, LinkedList<string>> Job_Progression = new Dictionary<string, LinkedList<string>>();
  
@@ -68,59 +68,68 @@ public class Job {
     {
         for(int i = 0; i < Job_Progression.Length; i++ )
         {
-            Job_Progression[i] = new LinkedList<string>();
+            Job_Progression[i] = new ArrayList();
         }
 
         // Barista Progression
-        Job_Progression[0].AddLast("Shift Manager");
-        Job_Progression[0].AddLast("Store Manager");
-        Job_Progression[0].AddLast("Franchise Owner");
+        Job_Progression[0].Add("Barista");
+        Job_Progression[0].Add("Shift Manager");
+        Job_Progression[0].Add("Store Manager");
+        Job_Progression[0].Add("Franchise Owner");
 
         // Server Progression
-        Job_Progression[1].AddLast("Server");
-        Job_Progression[1].AddLast("Shift Manager");
-        Job_Progression[1].AddLast("Manager");
+        Job_Progression[1].Add("Hostess");
+        Job_Progression[1].Add("Server");
+        Job_Progression[1].Add("Shift Manager");
+        Job_Progression[1].Add("Manager");
 
         // Web Developer
-        Job_Progression[2].AddLast("Quality Assurance");
-        Job_Progression[2].AddLast("Developer");
-        Job_Progression[2].AddLast("Senior Developer");
+        Job_Progression[2].Add("IT Technician");
+        Job_Progression[2].Add("Quality Assurance");
+        Job_Progression[2].Add("Developer");
+        Job_Progression[2].Add("Senior Developer");
 
         // Bank Teller
-        Job_Progression[3].AddLast("Banker");
-        Job_Progression[3].AddLast("Service Manager");
-        Job_Progression[3].AddLast("Branch Manager");
+        Job_Progression[3].Add("Bank Teller");
+        Job_Progression[3].Add("Banker");
+        Job_Progression[3].Add("Service Manager");
+        Job_Progression[3].Add("Branch Manager");
 
         // Salesman
-        Job_Progression[4].AddLast("Account Manager");
-        Job_Progression[4].AddLast("Manager");
-        Job_Progression[4].AddLast("Senior Manager");
+        Job_Progression[4].Add("Salesman");
+        Job_Progression[4].Add("Account Manager");
+        Job_Progression[4].Add("Manager");
+        Job_Progression[4].Add("Senior Manager");
 
         // Software Developer
-        Job_Progression[5].AddLast("Senior Developer");
-        Job_Progression[5].AddLast("Project Lead");
-        Job_Progression[5].AddLast("Project Manager");
+        Job_Progression[5].Add("Software Developer");
+        Job_Progression[5].Add("Senior Developer");
+        Job_Progression[5].Add("Project Lead");
+        Job_Progression[5].Add("Project Manager");
 
         // College Professor
-        Job_Progression[6].AddLast("Assocaite College Professor");
-        Job_Progression[6].AddLast("College Professor");
-        Job_Progression[6].AddLast("Dean");
+        Job_Progression[6].Add("Assistant College Professor");
+        Job_Progression[6].Add("Associate College Professor");
+        Job_Progression[6].Add("College Professor");
+        Job_Progression[6].Add("Dean");
 
         // Medical Doctor
-        Job_Progression[7].AddLast("Medical Specialist");
-        Job_Progression[7].AddLast("Surgeon");
-        Job_Progression[7].AddLast("Cheif of Staff");
+        Job_Progression[7].Add("General Practitioner");
+        Job_Progression[7].Add("Medical Specialist");
+        Job_Progression[7].Add("Surgeon");
+        Job_Progression[7].Add("Cheif of Staff");
 
         // Astronaut
-        Job_Progression[8].AddLast("Senior Engineer");
-        Job_Progression[8].AddLast("Flight Crew");
-        Job_Progression[8].AddLast("NASA Administrator");
+        Job_Progression[8].Add("Aerospace Engineer");
+        Job_Progression[8].Add("Senior Engineer");
+        Job_Progression[8].Add("Flight Crew");
+        Job_Progression[8].Add("NASA Administrator");
 
     }
 
     public void Promotion()
     {
-        Game_Manager.instance.Player.Player_Job.Name = Job_Progression[Job_Id].First.Value;
-        Job_Progression[Job_Id].RemoveFirst();
+        Game_Manager.instance.Player.Player_Job.Name = (string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level];
+        Debug.Log((string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level]);
     }
 }
