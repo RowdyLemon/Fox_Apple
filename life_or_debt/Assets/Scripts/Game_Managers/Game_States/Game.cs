@@ -12,6 +12,7 @@ public class Game : MonoBehaviour
     public GameObject go_to_work;
     public GameObject go_out;
     public GameObject time;
+    public GameObject car;
 
 
     // Player bars
@@ -38,7 +39,7 @@ public class Game : MonoBehaviour
         rest_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         job_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         health_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-
+        car.GetComponent<Image>().sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
         alter_bar_values();
         day = 0;
         hour = 0;
@@ -53,7 +54,6 @@ public class Game : MonoBehaviour
     public void rest(int amount)
     {      
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
-        //Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + 5 > 100) ? 100 : Game_Manager.instance.Player.Health + 5;
         day_passed(amount);
         alter_bar_values();
     }
@@ -80,6 +80,7 @@ public class Game : MonoBehaviour
         promotion_check();
         rested_check();
         happiness_check();
+        health_check();
         day_passed(amount);
         alter_bar_values();
         set_top_values();
@@ -141,7 +142,8 @@ public class Game : MonoBehaviour
         }
         if(Game_Manager.instance.Player.Health <= 0)
         {
-
+            Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
+            Game_Manager.instance.scene_loaded = false;
         }
 
     }
