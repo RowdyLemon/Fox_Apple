@@ -18,6 +18,7 @@ public class Game : MonoBehaviour
     public GameObject happiness_bar;
     public GameObject rest_bar;
     public GameObject job_bar;
+    public GameObject health_bar;
 
     private Random_Event random_event = new Random_Event();
 
@@ -36,6 +37,8 @@ public class Game : MonoBehaviour
         happiness_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         rest_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         job_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
+        health_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
+
         alter_bar_values();
         day = 0;
         hour = 0;
@@ -49,8 +52,8 @@ public class Game : MonoBehaviour
 
     public void rest(int amount)
     {      
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + 10 > 100) ? 100 : Game_Manager.instance.Player.Happiness + 10;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
+        //Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + 5 > 100) ? 100 : Game_Manager.instance.Player.Health + 5;
         day_passed(amount);
         alter_bar_values();
     }
@@ -67,17 +70,28 @@ public class Game : MonoBehaviour
 
     public void work(int amount)
     {
-        //Debug.Log("pre work count: " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Promotion_Count += 10;
-        //Debug.Log("post work count: " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 10 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - 10 <= 0) ? 0 : Game_Manager.instance.Player.Health - 10;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
 
 
         promotion_check();
         rested_check();
+        happiness_check();
         day_passed(amount);
+        alter_bar_values();
+        set_top_values();
+    }
+
+    public void eat(Eating_Param eating_param)
+    {
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + eating_param.health_gain >= 100) ? 100 : Game_Manager.instance.Player.Health + eating_param.health_gain;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
+
+        rested_check();
+        day_passed(eating_param.amount);
         alter_bar_values();
         set_top_values();
     }
@@ -94,12 +108,10 @@ public class Game : MonoBehaviour
         if (Game_Manager.instance.Player.Rested < 40)
         {
             Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Promotion_Count - 20 <= 0) ? 0 : Game_Manager.instance.Player.Promotion_Count - 20;
-            //Debug.Log(Game_Manager.instance.Player.Promotion_Count);
         }
         if (Game_Manager.instance.Player.Promotion_Count == 0 && Game_Manager.instance.Player.Job_Level > 0)
         {
             Game_Manager.instance.Player.Job_Level--;
-            Debug.Log(Game_Manager.instance.Player.Job_Level);
             float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
             int res = (int)Math.Ceiling(current_wage * .9);
             Game_Manager.instance.Player.Player_Job.Hourly_Wage = res;
@@ -113,9 +125,25 @@ public class Game : MonoBehaviour
     {
         if(Game_Manager.instance.Player.Happiness < 50)
         {
-            Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
+            Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             rested_check();
         }
+    }
+
+    private void health_check()
+    {
+        if(Game_Manager.instance.Player.Health < 40)
+        {
+            Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
+            Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
+            rested_check();
+            happiness_check();
+        }
+        if(Game_Manager.instance.Player.Health <= 0)
+        {
+
+        }
+
     }
 
     private void promotion_check()
@@ -178,6 +206,8 @@ public class Game : MonoBehaviour
         side.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
         side.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size;
         side.GetComponentsInChildren<Text>()[6].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[7].fontSize = Game_Manager.instance.Font_Size;
+
 
         bottom.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size;
         bottom.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
@@ -205,8 +235,8 @@ public class Game : MonoBehaviour
 
     private void set_side_values()
     {
-        side.GetComponentsInChildren<Text>()[4].text = Game_Manager.instance.Player.Player_Job.Name;
-        side.GetComponentsInChildren<Text>()[6].text = Game_Manager.instance.Player.Player_Job.Hourly_Wage + "/hour";
+        side.GetComponentsInChildren<Text>()[5].text = Game_Manager.instance.Player.Player_Job.Name;
+        side.GetComponentsInChildren<Text>()[7].text = Game_Manager.instance.Player.Player_Job.Hourly_Wage + "/hour";
     }
 
     private void alter_bar_values()
@@ -253,5 +283,26 @@ public class Game : MonoBehaviour
         }
         double w_bar = bar_full - (bar_full) * ((double)Game_Manager.instance.Player.Promotion_Count / 100.0);
         job_bar.GetComponent<RectTransform>().sizeDelta = new Vector3(-(float)w_bar, 0f);
+
+        double he_bar = bar_full - (bar_full) * ((double)Game_Manager.instance.Player.Health / 100.0);
+        health_bar.GetComponent<RectTransform>().sizeDelta = new Vector3(-(float)he_bar, 0f);
+        if (Game_Manager.instance.Player.Health <= 25)
+        {
+            health_bar.GetComponentsInChildren<Image>()[0].color = new Color(255, 0, 0);
+            health_bar.GetComponentsInChildren<Image>()[1].color = new Color(255, 0, 0);
+            health_bar.GetComponentsInChildren<Image>()[2].color = new Color(255, 0, 0);
+        }
+        else if (Game_Manager.instance.Player.Health <= 60)
+        {
+            health_bar.GetComponentsInChildren<Image>()[0].color = new Color(255, 204, 0);
+            health_bar.GetComponentsInChildren<Image>()[1].color = new Color(255, 204, 0);
+            health_bar.GetComponentsInChildren<Image>()[2].color = new Color(255, 204, 0);
+        }
+        else
+        {
+            health_bar.GetComponentsInChildren<Image>()[0].color = new Color(0, 204, 0);
+            health_bar.GetComponentsInChildren<Image>()[1].color = new Color(0, 204, 0);
+            health_bar.GetComponentsInChildren<Image>()[2].color = new Color(0, 204, 0);
+        }
     }
 }

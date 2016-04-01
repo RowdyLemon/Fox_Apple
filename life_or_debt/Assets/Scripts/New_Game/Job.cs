@@ -51,12 +51,16 @@ public class Job {
         {
             Player_Job = Jobs[Random.Range(0, 3)];
         }
-        else if(Degree.Equals("Master's"))
+        else if (Degree.Equals("Master's"))
         {
             Player_Job = Jobs[Random.Range(3, 6)];
+            Game_Manager.instance.Player.Health -= 20;
         }
         else
+        {
             Player_Job = Jobs[Random.Range(6, 9)];
+            Game_Manager.instance.Player.Health -= 40;
+        }
 
         Game_Manager.instance.Player.Player_Job.Hourly_Wage = Player_Job.Hourly_Wage;
         Game_Manager.instance.Player.Player_Job.Name = Player_Job.Name;
