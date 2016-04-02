@@ -14,6 +14,7 @@ public class Game_Manager : MonoBehaviour
         NAME_SELECTION,
         CAR_SELECTION,
         PERSONALITY_QUIZ,
+        LOSE_SCENE,
         MAIN
     };
 
@@ -111,6 +112,13 @@ public class Game_Manager : MonoBehaviour
                 {
                     scene_loaded = true;
                     SceneManager.LoadScene("Personality_Quiz_Scene");
+                }
+                break;
+            case Game_States.LOSE_SCENE:
+                if (!scene_loaded)
+                {
+                    scene_loaded = true;
+                    SceneManager.LoadScene("Lose_Screen");
                 }
                 break;
         }

@@ -14,6 +14,7 @@ public class Player {
     public int Promotion_Count;
     public int Rested;
     public int Job_Level;
+    public int Health;
 
     public Player()
     {
@@ -29,5 +30,6 @@ public class Player {
         Promotion_Count = 0;
         Rested = 50;
         Job_Level = 0;
+        Health = 100;
     }
 }
