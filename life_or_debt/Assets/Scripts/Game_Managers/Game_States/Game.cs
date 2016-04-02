@@ -68,7 +68,8 @@ public class Game : MonoBehaviour
     public void work(int amount)
     {
         Debug.Log("pre work count: " + Game_Manager.instance.Player.Promotion_Count);
-        Game_Manager.instance.Player.Promotion_Count += 10;
+        //Game_Manager.instance.Player.Promotion_Count += 10;
+        Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + 10;
         Debug.Log("post work count: " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 10 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
@@ -107,7 +108,7 @@ public class Game : MonoBehaviour
     {
         int job_level = Game_Manager.instance.Player.Job_Level;
 
-        if (job_level >= 2)
+        if (job_level >= 3)
             return;
 
         if(Game_Manager.instance.Player.Promotion_Count == 100)
@@ -118,7 +119,7 @@ public class Game : MonoBehaviour
             int res = (int)Math.Ceiling(current_wage * 1.1);
             Game_Manager.instance.Player.Player_Job.Hourly_Wage = res;
 
-            if(job_level < 2)
+            if(job_level < 3)
             {
                 Game_Manager.instance.Player.Player_Job.Promotion();
                 Game_Manager.instance.Player.Job_Level++;
