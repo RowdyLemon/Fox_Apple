@@ -33,12 +33,15 @@ public class Choose_Job : MonoBehaviour {
         {
             case "Bachelor's":
                 Game_Manager.instance.Player.Debt -= 40000;
+                Game_Manager.instance.Player.Student_Loan += 40000;
                 break;
             case "Master's":
                 Game_Manager.instance.Player.Debt -= 80000;
+                Game_Manager.instance.Player.Student_Loan += 80000;
                 break;
             default:
                 Game_Manager.instance.Player.Debt -= 160000;
+                Game_Manager.instance.Player.Student_Loan += 160000;
                 break;
         }
     }

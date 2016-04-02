@@ -30,7 +30,7 @@ public class Random_Event {
         if(Random_Value == 3)
         {
             Game_Manager.instance.Player.Debt -= Event_Array[0].Debt_Change;
-            Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + Event_Array[0].Happiness_Change > 100) ? 100 : Game_Manager.instance.Player.Happiness + Event_Array[0].Happiness_Change;
+            Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - Event_Array[0].Happiness_Change <= 0) ? 0 : Game_Manager.instance.Player.Happiness + Event_Array[0].Happiness_Change;
             return Event_Array[0].Event_Description;
         }
         else if (Random_Value == 4)

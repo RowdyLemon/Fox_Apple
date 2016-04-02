@@ -71,9 +71,16 @@ public class Game : MonoBehaviour
 
     public void entertainment(Entertainment_Param entertainment_param)
     {
+        if (!checking_account_check(entertainment_param.cost))
+        {
+            Debug.Log("Insuffcient funds");
+            return;
+        }
+
         int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
 
         Game_Manager.instance.Player.Debt -= entertainment_param.cost;
+        Game_Manager.instance.Player.Checking_Account -= entertainment_param.cost;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_val > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_val;
         Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
         day_passed(entertainment_param.amount);
@@ -90,10 +97,10 @@ public class Game : MonoBehaviour
 
         Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_val;
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
+        Game_Manager.instance.Player.Checking_Account += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
-
 
         promotion_check();
         rested_check();
@@ -119,20 +126,23 @@ public class Game : MonoBehaviour
     }
 
 
-    public void go_to_store()
-    {
-
-    }
     // Helper Functions
 
     /*
      *  Sets font size based on screen size of all text
      */
 
+    private bool checking_account_check(int amount)
+    {
+        if (amount > Game_Manager.instance.Player.Checking_Account)
+            return false;
+        return true;
+    }
+
     private void rested_check()
     {
 
-        if (Game_Manager.instance.Player.Rested < 40)
+        if (Game_Manager.instance.Player.Rested < 30)
             Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Promotion_Count - 20 <= 0) ? 0 : Game_Manager.instance.Player.Promotion_Count - 20;
         if (Game_Manager.instance.Player.Promotion_Count == 0 && Game_Manager.instance.Player.Job_Level > 0)
         {
@@ -148,7 +158,7 @@ public class Game : MonoBehaviour
 
     private void happiness_check()
     {
-        if(Game_Manager.instance.Player.Happiness < 50)
+        if(Game_Manager.instance.Player.Happiness < 40)
         {
             Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             rested_check();
@@ -161,7 +171,6 @@ public class Game : MonoBehaviour
         {
             Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
-            rested_check();
             happiness_check();
         }
         if(Game_Manager.instance.Player.Health <= 0)
@@ -179,7 +188,7 @@ public class Game : MonoBehaviour
         if (job_level >= 3)
             return;
 
-        if(Game_Manager.instance.Player.Promotion_Count == 100)
+        if(Game_Manager.instance.Player.Promotion_Count >= 100)
         {
             // Promotion
             float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;

@@ -15,6 +15,10 @@ public class Player {
     public int Rested;
     public int Job_Level;
     public int Health;
+    public int Student_Loan;
+    public int House_Loan;
+    public int Car_Loan;
+    public int Checking_Account;
 
     public Player()
     {
@@ -31,5 +35,9 @@ public class Player {
         Rested = 50;
         Job_Level = 0;
         Health = 100;
+        Student_Loan = 0;
+        House_Loan = 0;
+        Car_Loan = 0;
+        Checking_Account = 0;
     }
 }
