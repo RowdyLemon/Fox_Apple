@@ -43,7 +43,6 @@ public class Game_Manager : MonoBehaviour
         current_state = Game_States.START;
         DontDestroyOnLoad(gameObject);
         scene_loaded = false;
-        Player = new Player();
         Init();
 	}
 	

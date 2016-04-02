@@ -6,6 +6,7 @@ public class Start_Screen : MonoBehaviour
 {
     public GameObject play_button;
 
+
 	// Use this for initialization
 	void Start ()
     {
@@ -20,6 +21,7 @@ public class Start_Screen : MonoBehaviour
 
     public void Game_Start()
     {
+        Game_Manager.instance.Player = new Player();
         Game_Manager.instance.current_state = Game_Manager.Game_States.NAME_SELECTION;
         Game_Manager.instance.scene_loaded = false;
     }

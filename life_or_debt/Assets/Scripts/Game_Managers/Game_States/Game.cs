@@ -107,9 +107,7 @@ public class Game : MonoBehaviour
     {
 
         if (Game_Manager.instance.Player.Rested < 40)
-        {
             Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Promotion_Count - 20 <= 0) ? 0 : Game_Manager.instance.Player.Promotion_Count - 20;
-        }
         if (Game_Manager.instance.Player.Promotion_Count == 0 && Game_Manager.instance.Player.Job_Level > 0)
         {
             Game_Manager.instance.Player.Job_Level--;
