@@ -13,7 +13,12 @@ public class Game : MonoBehaviour
     public GameObject go_out;
     public GameObject time;
     public GameObject car;
+    public GameObject bank_tab;
+    public GameObject modal_panel;
 
+    private Vector2 off_screen;
+    private Vector2 on_screen;
+    private Vector2 modal_on_screen;
 
     // Player bars
     public GameObject happiness_bar;
@@ -48,6 +53,11 @@ public class Game : MonoBehaviour
         alter_bar_values();
         day = 0;
         hour = 0;
+        off_screen = new Vector2(1000, 1000);
+        on_screen = bank_tab.transform.localPosition;
+        modal_on_screen = modal_panel.transform.localPosition;
+        bank_tab.transform.localPosition = off_screen;
+        modal_panel.transform.localPosition = off_screen;
     }
 	
 	// Update is called once per frame
@@ -79,7 +89,6 @@ public class Game : MonoBehaviour
 
         int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
 
-        Game_Manager.instance.Player.Debt -= entertainment_param.cost;
         Game_Manager.instance.Player.Checking_Account -= entertainment_param.cost;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_val > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_val;
         Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
@@ -96,7 +105,6 @@ public class Game : MonoBehaviour
         int rest_val = (int)(rest_change * 10);
 
         Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_val;
-        Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Checking_Account += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
@@ -123,6 +131,20 @@ public class Game : MonoBehaviour
         day_passed(eating_param.amount);
         alter_bar_values();
         set_top_values();
+    }
+
+    public void open_bank()
+    {
+        modal_panel.transform.localPosition = modal_on_screen;
+        bank_tab.transform.localPosition = on_screen;
+
+        bank_tab.GetComponentsInChildren<Text>()[1].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString();
+    }
+
+    public void close_bank()
+    {
+        modal_panel.transform.localPosition = off_screen;
+        bank_tab.transform.localPosition = off_screen;
     }
 
 
