@@ -119,6 +119,8 @@ MonoBehaviour:
   go_out: {fileID: 838242830}
   time: {fileID: 2141820619}
   car: {fileID: 541459174}
+  bank_tab: {fileID: 1135223082}
+  modal_panel: {fileID: 1247635164}
   happiness_bar: {fileID: 588281731}
   rest_bar: {fileID: 906477341}
   job_bar: {fileID: 1961886129}
@@ -6035,9 +6037,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Exit
-
-'
+  m_Text: Exit
 --- !u!222 &1407430628
 CanvasRenderer:
   m_ObjectHideFlags: 0
