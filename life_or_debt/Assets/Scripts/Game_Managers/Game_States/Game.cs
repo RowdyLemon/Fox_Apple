@@ -28,6 +28,11 @@ public class Game : MonoBehaviour
     private int day;
     private int hour;
 
+    private double health_change = Game_Manager.instance.Player.Player_Traits.Mood;
+    private double happiness_change = Game_Manager.instance.Player.Player_Traits.Mood;
+    private double work_rate = Game_Manager.instance.Player.Player_Traits.Work_Speed;
+    private double rest_change = Game_Manager.instance.Player.Player_Traits.Rest_Rate;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -53,17 +58,23 @@ public class Game : MonoBehaviour
 
     public void rest(int amount)
     {
-        int rest_change = (int)(Game_Manager.instance.Player.Player_Traits.Rest_Rate * 10);
-        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + rest_change > 100) ? 100 : Game_Manager.instance.Player.Rested + rest_change;
+        int rest_time = (int)(rest_change * 10);
+        int health_val = (int)(health_change * 5);
+
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + rest_time > 100) ? 100 : Game_Manager.instance.Player.Rested + rest_time;
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
+
+        health_check();
         day_passed(amount);
         alter_bar_values();
     }
 
     public void entertainment(Entertainment_Param entertainment_param)
     {
-        int happiness_change = (int)(Game_Manager.instance.Player.Player_Traits.Mood * entertainment_param.happiness_change);
+        int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
+
         Game_Manager.instance.Player.Debt -= entertainment_param.cost;
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_change > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_change;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_val > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_val;
         Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
         day_passed(entertainment_param.amount);
         alter_bar_values();
@@ -72,16 +83,16 @@ public class Game : MonoBehaviour
 
     public void work(int amount)
     {
-        int work_rate = (int)(Game_Manager.instance.Player.Player_Traits.Work_Speed * 10);
-        int happiness_change = (int)(Game_Manager.instance.Player.Player_Traits.Mood * 5);
-        int health_change = (int)(Game_Manager.instance.Player.Player_Traits.Mood * 10);
-        int rest_change = (int)(Game_Manager.instance.Player.Player_Traits.Rest_Rate * 10);
+        int work_val = (int)(work_rate * 10);
+        int happiness_val = (int)(happiness_change * 5);
+        int health_val = (int)(health_change * 10);
+        int rest_val = (int)(rest_change * 10);
 
-        Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_rate;
+        Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_val;
         Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_change <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_change;
-        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_change <= 0) ? 0 : Game_Manager.instance.Player.Health - health_change;
-        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_change <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_change;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
 
         promotion_check();
@@ -95,11 +106,11 @@ public class Game : MonoBehaviour
 
     public void eat(Eating_Param eating_param)
     {
-        int health_change = (int)(Game_Manager.instance.Player.Player_Traits.Mood * eating_param.health_gain);
-        int rest_change = (int)(Game_Manager.instance.Player.Player_Traits.Rest_Rate * 5);
+        int health_val = (int)(health_change * eating_param.health_gain);
+        int rest_val = (int)(rest_change * 5);
 
-        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + health_change >= 100) ? 100 : Game_Manager.instance.Player.Health + health_change;
-        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_change <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_change;
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + health_val >= 100) ? 100 : Game_Manager.instance.Player.Health + health_val;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
         rested_check();
         day_passed(eating_param.amount);

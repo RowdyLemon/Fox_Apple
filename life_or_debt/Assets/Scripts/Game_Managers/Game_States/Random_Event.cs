@@ -17,9 +17,10 @@ public class Random_Event {
 
     public Random_Event()
     {
-        Event_Array[0] = new Random_Event("Your car has broken down, -$500", -500, -5);
-        Event_Array[1] = new Random_Event("Steam Sale. You know the drill -50", -50, 0);
-        Event_Array[2] = new Random_Event("You've won the lottery! $1000!", 1000, 10);
+        double thriftyness_multiplier = Game_Manager.instance.Player.Player_Traits.Thriftyness;
+        Event_Array[0] = new Random_Event("Your car has broken down, $"+(int)(-500 * thriftyness_multiplier), (int)(-500 * thriftyness_multiplier), -5);
+        Event_Array[1] = new Random_Event("Steam Sale. You know the drill $"+(int)(-50 * thriftyness_multiplier), (int)(-50 * thriftyness_multiplier), 0);
+        Event_Array[2] = new Random_Event("You've won the lottery! $"+(int)(1000 * thriftyness_multiplier)+"!", (int)(1000 * thriftyness_multiplier), 10);
     }
 
 

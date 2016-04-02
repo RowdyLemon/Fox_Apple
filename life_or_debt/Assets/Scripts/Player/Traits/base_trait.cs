@@ -39,10 +39,7 @@ public class base_trait
 
 
         if (player_laziness < 5)
-        {
             rest_rate = 1.2;
-            
-        }
         else if (player_laziness > 8)
         {
             rest_rate = .8;
@@ -54,7 +51,7 @@ public class base_trait
 
         if (player_thriftyness < 5)
             thriftyness = 1.2;
-        else if (player_thriftyness > 8)
+        else if (player_thriftyness >= 8)
             thriftyness = .8;
         else
             thriftyness = 1;
