@@ -26,7 +26,7 @@ public class base_trait
         if (player_mood < 5)
             mood = .8;
         if (player_mood > 8)
-            mood = 1.2;
+            mood = 1.2; 
         else 
             mood = 1;
 

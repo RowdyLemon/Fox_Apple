@@ -16,7 +16,7 @@ public class Start_Screen : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-	
+	    
 	}
 
     public void Game_Start()
