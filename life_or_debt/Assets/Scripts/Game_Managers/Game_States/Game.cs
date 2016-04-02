@@ -28,6 +28,11 @@ public class Game : MonoBehaviour
     private int day;
     private int hour;
 
+    private double health_change = Game_Manager.instance.Player.Player_Traits.Mood;
+    private double happiness_change = Game_Manager.instance.Player.Player_Traits.Mood;
+    private double work_rate = Game_Manager.instance.Player.Player_Traits.Work_Speed;
+    private double rest_change = Game_Manager.instance.Player.Player_Traits.Rest_Rate;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -52,16 +57,31 @@ public class Game : MonoBehaviour
 	}
 
     public void rest(int amount)
-    {      
-        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + 10 > 100) ? 100 : Game_Manager.instance.Player.Rested + 10;
+    {
+        int rest_time = (int)(rest_change * 10);
+        int health_val = (int)(health_change * 5);
+
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + rest_time > 100) ? 100 : Game_Manager.instance.Player.Rested + rest_time;
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
+
+        health_check();
         day_passed(amount);
         alter_bar_values();
     }
 
     public void entertainment(Entertainment_Param entertainment_param)
     {
+        if (!checking_account_check(entertainment_param.cost))
+        {
+            Debug.Log("Insuffcient funds");
+            return;
+        }
+
+        int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
+
         Game_Manager.instance.Player.Debt -= entertainment_param.cost;
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + entertainment_param.happiness_change > 100) ? 100 : Game_Manager.instance.Player.Happiness + entertainment_param.happiness_change;
+        Game_Manager.instance.Player.Checking_Account -= entertainment_param.cost;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_val > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_val;
         Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
         day_passed(entertainment_param.amount);
         alter_bar_values();
@@ -70,13 +90,17 @@ public class Game : MonoBehaviour
 
     public void work(int amount)
     {
-        //Game_Manager.instance.Player.Promotion_Count += 10;
-        Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + 10;
-        Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
-        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
-        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - 10 <= 0) ? 0 : Game_Manager.instance.Player.Health - 10;
-        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 10 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 10;
+        int work_val = (int)(work_rate * 10);
+        int happiness_val = (int)(happiness_change * 5);
+        int health_val = (int)(health_change * 10);
+        int rest_val = (int)(rest_change * 10);
 
+        Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_val;
+        Game_Manager.instance.Player.Debt += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
+        Game_Manager.instance.Player.Checking_Account += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
         promotion_check();
         rested_check();
@@ -89,8 +113,11 @@ public class Game : MonoBehaviour
 
     public void eat(Eating_Param eating_param)
     {
-        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + eating_param.health_gain >= 100) ? 100 : Game_Manager.instance.Player.Health + eating_param.health_gain;
-        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
+        int health_val = (int)(health_change * eating_param.health_gain);
+        int rest_val = (int)(rest_change * 5);
+
+        Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + health_val >= 100) ? 100 : Game_Manager.instance.Player.Health + health_val;
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
         rested_check();
         day_passed(eating_param.amount);
@@ -98,19 +125,25 @@ public class Game : MonoBehaviour
         set_top_values();
     }
 
+
     // Helper Functions
 
     /*
      *  Sets font size based on screen size of all text
      */
 
+    private bool checking_account_check(int amount)
+    {
+        if (amount > Game_Manager.instance.Player.Checking_Account)
+            return false;
+        return true;
+    }
+
     private void rested_check()
     {
 
-        if (Game_Manager.instance.Player.Rested < 40)
-        {
+        if (Game_Manager.instance.Player.Rested < 30)
             Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Promotion_Count - 20 <= 0) ? 0 : Game_Manager.instance.Player.Promotion_Count - 20;
-        }
         if (Game_Manager.instance.Player.Promotion_Count == 0 && Game_Manager.instance.Player.Job_Level > 0)
         {
             Game_Manager.instance.Player.Job_Level--;
@@ -125,7 +158,7 @@ public class Game : MonoBehaviour
 
     private void happiness_check()
     {
-        if(Game_Manager.instance.Player.Happiness < 50)
+        if(Game_Manager.instance.Player.Happiness < 40)
         {
             Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             rested_check();
@@ -138,7 +171,6 @@ public class Game : MonoBehaviour
         {
             Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
-            rested_check();
             happiness_check();
         }
         if(Game_Manager.instance.Player.Health <= 0)
@@ -156,7 +188,7 @@ public class Game : MonoBehaviour
         if (job_level >= 3)
             return;
 
-        if(Game_Manager.instance.Player.Promotion_Count == 100)
+        if(Game_Manager.instance.Player.Promotion_Count >= 100)
         {
             // Promotion
             float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
