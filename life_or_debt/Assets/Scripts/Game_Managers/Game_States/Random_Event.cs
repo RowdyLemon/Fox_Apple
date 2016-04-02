@@ -29,13 +29,13 @@ public class Random_Event {
         int Random_Value = Random.Range(0, 5);
         if(Random_Value == 3)
         {
-            Game_Manager.instance.Player.Debt -= Event_Array[0].Debt_Change;
+            Game_Manager.instance.Player.Checking_Account = (Game_Manager.instance.Player.Checking_Account - Event_Array[0].Debt_Change < 0) ? 0 : Game_Manager.instance.Player.Checking_Account - Event_Array[0].Debt_Change;
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - Event_Array[0].Happiness_Change <= 0) ? 0 : Game_Manager.instance.Player.Happiness + Event_Array[0].Happiness_Change;
             return Event_Array[0].Event_Description;
         }
         else if (Random_Value == 4)
         {
-            Game_Manager.instance.Player.Debt -= Event_Array[1].Debt_Change;
+            Game_Manager.instance.Player.Checking_Account = (Game_Manager.instance.Player.Checking_Account - Event_Array[1].Debt_Change < 0) ? 0 : Game_Manager.instance.Player.Checking_Account - Event_Array[1].Debt_Change;
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + Event_Array[1].Happiness_Change > 100) ? 100 : Game_Manager.instance.Player.Happiness + Event_Array[1].Happiness_Change;
             return Event_Array[1].Event_Description;
         }
