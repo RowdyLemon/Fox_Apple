@@ -52,6 +52,10 @@ public class Game : MonoBehaviour
     private int house_payment;
     private int car_payment;
 
+    private bool monthly_car_payment;
+    private bool monthly_house_payment;
+    private bool monthly_student_loan_payment;
+
     // Use this for initialization
     void Start()
     {
@@ -414,6 +418,15 @@ public class Game : MonoBehaviour
             string r_event = random_event.Execute_Event();
             set_bottom_values(r_event);
             set_top_values();
+        }
+
+        if(day % 30 == 0 && day > 1)
+        {
+            if (!monthly_car_payment && !monthly_house_payment && !monthly_student_loan_payment)
+            {
+                Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
+                Game_Manager.instance.scene_loaded = false;
+            }
         }
         time.GetComponentsInChildren<Text>()[2].text = day.ToString();
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
