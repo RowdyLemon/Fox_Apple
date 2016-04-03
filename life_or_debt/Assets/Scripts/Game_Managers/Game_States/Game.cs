@@ -436,8 +436,11 @@ public class Game : MonoBehaviour
 
     public void increment_student_payment()
     {
+        Debug.Log("payment amounts: " + (student_payment + house_payment + car_payment));
+        Debug.Log("Player money: " + Game_Manager.instance.Player.Checking_Account);
         if((student_payment + house_payment + car_payment) + 100 > Game_Manager.instance.Player.Checking_Account)
         {
+            Debug.Log("Cant pay anymore");
             s_inc.GetComponent<Button>().interactable = false;
             h_inc.GetComponent<Button>().interactable = false;
             c_inc.GetComponent<Button>().interactable = false;
@@ -476,7 +479,7 @@ public class Game : MonoBehaviour
     public void decrement_house_payment()
     {
         house_payment -= 100;
-        bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + house_payment.ToString("N0");
+        bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
         s_inc.GetComponent<Button>().interactable = true;
         h_inc.GetComponent<Button>().interactable = true;
         c_inc.GetComponent<Button>().interactable = true;
@@ -496,13 +499,13 @@ public class Game : MonoBehaviour
         }
         c_dec.GetComponent<Button>().interactable = true;
         car_payment += 100;
-        bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + car_payment.ToString("N0");
+        bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
     }
 
     public void decrement_car_payment()
     {
         car_payment -= 100;
-        bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + car_payment.ToString("N0");
+        bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
         s_inc.GetComponent<Button>().interactable = true;
         h_inc.GetComponent<Button>().interactable = true;
         c_inc.GetComponent<Button>().interactable = true;
@@ -519,10 +522,20 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.House_Loan -= house_payment;
         Game_Manager.instance.Player.Car_Loan -= car_payment;
 
-        bank_tab.GetComponentsInChildren<Text>()[1].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString("N0");
-        bank_tab.GetComponentsInChildren<Text>()[10].text = "$" + Game_Manager.instance.Player.Student_Loan.ToString("N0");
-        bank_tab.GetComponentsInChildren<Text>()[11].text = "$" + Game_Manager.instance.Player.House_Loan.ToString("N0");
-        bank_tab.GetComponentsInChildren<Text>()[12].text = "$" + Game_Manager.instance.Player.Car_Loan.ToString("N0");
+        open_bank();
+
+        //bank_tab.GetComponentsInChildren<Text>()[1].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString("N0");
+        //bank_tab.GetComponentsInChildren<Text>()[10].text = "$" + Game_Manager.instance.Player.Student_Loan.ToString("N0");
+        //bank_tab.GetComponentsInChildren<Text>()[11].text = "$" + Game_Manager.instance.Player.House_Loan.ToString("N0");
+        //bank_tab.GetComponentsInChildren<Text>()[12].text = "$" + Game_Manager.instance.Player.Car_Loan.ToString("N0");
+
+        //student_payment = 0;
+        //house_payment = 0;
+        //car_payment = 0;
+
+        //bank_tab.GetComponentsInChildren<Text>()[5].text = "$0";
+        //bank_tab.GetComponentsInChildren<Text>()[6].text = "$0";
+        //bank_tab.GetComponentsInChildren<Text>()[8].text = "$0";
     }
 
     private void font_init()
