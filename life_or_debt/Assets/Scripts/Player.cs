@@ -19,6 +19,9 @@ public class Player {
     public int House_Loan;
     public int Car_Loan;
     public int Checking_Account;
+    public int Poor_Food;
+    public int Middle_Class_Food;
+    public int Rich_Food;
 
     public Player()
     {

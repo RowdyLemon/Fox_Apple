@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     public GameObject time;
     public GameObject car;
     public GameObject bank_tab;
+    public GameObject store_tab;
     public GameObject modal_panel;
 
     private Vector2 off_screen;
@@ -121,6 +122,8 @@ public class Game : MonoBehaviour
 
     public void eat(Eating_Param eating_param)
     {
+        food_check(eating_param.health_gain);
+
         int health_val = (int)(health_change * eating_param.health_gain);
         int rest_val = (int)(rest_change * 5);
 
@@ -147,12 +150,70 @@ public class Game : MonoBehaviour
         bank_tab.transform.localPosition = off_screen;
     }
 
+    public void open_store()
+    {
+        modal_panel.transform.localPosition = modal_on_screen;
+        store_tab.transform.localPosition = on_screen;
+    }
+
+    public void close_store()
+    {
+        modal_panel.transform.localPosition = off_screen;
+        store_tab.transform.localPosition = off_screen;
+    }
+
+    public void purchase_food(int price)
+    {
+        switch(price)
+            {
+            case 25:
+                    if (Game_Manager.instance.Player.Checking_Account - 25 <= 0)
+                    {
+                        Debug.Log("Insufficient Funds");
+                        return;
+                    }
+                    Game_Manager.instance.Player.Poor_Food++;
+                    break;
+            case 50:
+                    if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
+                    {
+                        Debug.Log("Insufficient Funds");
+                        return;
+                    }
+                    Game_Manager.instance.Player.Middle_Class_Food++;
+                    break;
+            case 100:
+                    if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
+                    {
+                        Debug.Log("Insufficient Funds");
+                        return;
+                    }
+                    Game_Manager.instance.Player.Rich_Food++;
+                    break;
+            }
+    }
 
     // Helper Functions
 
     /*
      *  Sets font size based on screen size of all text
      */
+
+    private void food_check(int health_gain)
+    {
+        switch(health_gain)
+        {
+            case 20:
+                Game_Manager.instance.Player.Poor_Food--;
+                break;
+            case 30:
+                Game_Manager.instance.Player.Middle_Class_Food--;
+                break;
+            case 40:
+                Game_Manager.instance.Player.Rich_Food--;
+                break;
+        }
+    }
 
     private bool checking_account_check(int amount)
     {
