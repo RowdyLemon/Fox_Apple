@@ -516,19 +516,6 @@ public class Game : MonoBehaviour
             monthly_payment = true;
 
         open_bank();
-
-        //bank_tab.GetComponentsInChildren<Text>()[1].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString("N0");
-        //bank_tab.GetComponentsInChildren<Text>()[10].text = "$" + Game_Manager.instance.Player.Student_Loan.ToString("N0");
-        //bank_tab.GetComponentsInChildren<Text>()[11].text = "$" + Game_Manager.instance.Player.House_Loan.ToString("N0");
-        //bank_tab.GetComponentsInChildren<Text>()[12].text = "$" + Game_Manager.instance.Player.Car_Loan.ToString("N0");
-
-        //student_payment = 0;
-        //house_payment = 0;
-        //car_payment = 0;
-
-        //bank_tab.GetComponentsInChildren<Text>()[5].text = "$0";
-        //bank_tab.GetComponentsInChildren<Text>()[6].text = "$0";
-        //bank_tab.GetComponentsInChildren<Text>()[8].text = "$0";
     }
 
     private void font_init()
