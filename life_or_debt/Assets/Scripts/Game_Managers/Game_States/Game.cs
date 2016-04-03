@@ -508,7 +508,7 @@ public class Game : MonoBehaviour
         c_inc.GetComponent<Button>().interactable = true;
         if (car_payment == 0)
         {
-            h_dec.GetComponent<Button>().interactable = false;
+            c_dec.GetComponent<Button>().interactable = false;
         }
     }
 
