@@ -412,18 +412,15 @@ public class Game : MonoBehaviour
 
     public void increment_student_payment()
     {
-        Debug.Log("payment amounts: " + (student_payment + house_payment + car_payment));
-        Debug.Log("Player money: " + Game_Manager.instance.Player.Checking_Account);
-        if((student_payment + house_payment + car_payment) + 100 > Game_Manager.instance.Player.Checking_Account)
+        s_dec.GetComponent<Button>().interactable = true;
+        student_payment += 100;
+        bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
+        if ((student_payment + house_payment + car_payment) + 100 > Game_Manager.instance.Player.Checking_Account)
         {
-            Debug.Log("Cant pay anymore");
             s_inc.GetComponent<Button>().interactable = false;
             h_inc.GetComponent<Button>().interactable = false;
             c_inc.GetComponent<Button>().interactable = false;
         }
-        s_dec.GetComponent<Button>().interactable = true;
-        student_payment += 100;
-        bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
     }
 
     public void decrement_student_payment()
@@ -441,15 +438,15 @@ public class Game : MonoBehaviour
 
     public void increment_house_payment()
     {
+        h_dec.GetComponent<Button>().interactable = true;
+        house_payment += 100;
+        bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
         if ((student_payment + house_payment + car_payment) + 100 > Game_Manager.instance.Player.Checking_Account)
         {
             s_inc.GetComponent<Button>().interactable = false;
             h_inc.GetComponent<Button>().interactable = false;
             c_inc.GetComponent<Button>().interactable = false;
         }
-        h_dec.GetComponent<Button>().interactable = true;
-        house_payment += 100;
-        bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
     }
 
     public void decrement_house_payment()
@@ -467,15 +464,15 @@ public class Game : MonoBehaviour
 
     public void increment_car_payment()
     {
+        c_dec.GetComponent<Button>().interactable = true;
+        car_payment += 100;
+        bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
         if ((student_payment + house_payment + car_payment) + 100 > Game_Manager.instance.Player.Checking_Account)
         {
             s_inc.GetComponent<Button>().interactable = false;
             h_inc.GetComponent<Button>().interactable = false;
             c_inc.GetComponent<Button>().interactable = false;
         }
-        c_dec.GetComponent<Button>().interactable = true;
-        car_payment += 100;
-        bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
     }
 
     public void decrement_car_payment()
@@ -497,6 +494,9 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Student_Loan -= student_payment;
         Game_Manager.instance.Player.House_Loan -= house_payment;
         Game_Manager.instance.Player.Car_Loan -= car_payment;
+
+        Game_Manager.instance.Player.Debt += (student_payment + house_payment + car_payment);
+        top.GetComponentsInChildren<Text>()[2].text = Game_Manager.instance.Player.Debt.ToString("N0");
 
         open_bank();
 
