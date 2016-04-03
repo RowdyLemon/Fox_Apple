@@ -41,8 +41,19 @@ public class Game : MonoBehaviour
     private double work_rate = Game_Manager.instance.Player.Player_Traits.Work_Speed;
     private double rest_change = Game_Manager.instance.Player.Player_Traits.Rest_Rate;
 
-	// Use this for initialization
-	void Start ()
+    // Bank Variables
+    public GameObject s_inc;
+    public GameObject s_dec;
+    public GameObject h_inc;
+    public GameObject h_dec;
+    public GameObject c_inc;
+    public GameObject c_dec;
+    private int student_payment;
+    private int house_payment;
+    private int car_payment;
+
+    // Use this for initialization
+    void Start()
     {
         font_init();
         set_top_values();
@@ -65,12 +76,12 @@ public class Game : MonoBehaviour
         fridge_tab.transform.localPosition = off_screen;
         store_tab.transform.localPosition = off_screen;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-	
-	}
+
+    }
 
     public void rest(int amount)
     {
@@ -222,24 +233,46 @@ public class Game : MonoBehaviour
 
     public void purchase_food(int price)
     {
-        switch(price)
-            {
+        switch (price)
+        {
             case 25:
                     Game_Manager.instance.Player.Checking_Account -= 25;
                     Game_Manager.instance.Player.Poor_Food++;
                     food_purchase_check();
                     break;
+                if (Game_Manager.instance.Player.Checking_Account - 25 <= 0)
+                {
+                    Debug.Log("Insufficient Funds");
+                    return;
+                }
+                Game_Manager.instance.Player.Poor_Food++;
+                break;
             case 50:
                     Game_Manager.instance.Player.Middle_Class_Food++;
                     Game_Manager.instance.Player.Checking_Account -=50;
                     food_purchase_check();
                     break;
+                if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
+                {
+                    Debug.Log("Insufficient Funds");
+                    return;
+                }
+                Game_Manager.instance.Player.Middle_Class_Food++;
+                break;
             case 100:
                     Game_Manager.instance.Player.Rich_Food++;
                     Game_Manager.instance.Player.Checking_Account -= 100;
                     food_purchase_check();
                     break;
             }
+                if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
+                {
+                    Debug.Log("Insufficient Funds");
+                    return;
+                }
+                Game_Manager.instance.Player.Rich_Food++;
+                break;
+        }
     }
 
     private void food_purchase_check()
@@ -256,7 +289,7 @@ public class Game : MonoBehaviour
 
     private void food_check(int health_gain)
     {
-        switch(health_gain)
+        switch (health_gain)
         {
             case 10:
                 Game_Manager.instance.Player.Poor_Food--;
@@ -305,7 +338,7 @@ public class Game : MonoBehaviour
 
     private void happiness_check()
     {
-        if(Game_Manager.instance.Player.Happiness < 40)
+        if (Game_Manager.instance.Player.Happiness < 40)
         {
             Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             rested_check();
@@ -314,13 +347,13 @@ public class Game : MonoBehaviour
 
     private void health_check()
     {
-        if(Game_Manager.instance.Player.Health < 40)
+        if (Game_Manager.instance.Player.Health < 40)
         {
             Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - 5 <= 0) ? 0 : Game_Manager.instance.Player.Rested - 5;
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
             happiness_check();
         }
-        if(Game_Manager.instance.Player.Health <= 0)
+        if (Game_Manager.instance.Player.Health <= 0)
         {
             Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
             Game_Manager.instance.scene_loaded = false;
@@ -335,15 +368,15 @@ public class Game : MonoBehaviour
         if (job_level >= 3)
             return;
 
-        if(Game_Manager.instance.Player.Promotion_Count >= 100)
+        if (Game_Manager.instance.Player.Promotion_Count >= 100)
         {
             // Promotion
             float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
-            
+
             int res = (int)Math.Ceiling(current_wage * 1.1);
             Game_Manager.instance.Player.Player_Job.Hourly_Wage = res;
 
-            if(job_level < 3)
+            if (job_level < 3)
             {
                 Game_Manager.instance.Player.Job_Level++;
                 Game_Manager.instance.Player.Player_Job.Promotion();
@@ -355,7 +388,7 @@ public class Game : MonoBehaviour
 
     private void day_passed(int amount)
     {
-        bottom.GetComponentsInChildren<Text>()[1].text = "";   
+        bottom.GetComponentsInChildren<Text>()[1].text = "";
         Game_Manager.instance.Player.Time_Played += amount;
         hour = Game_Manager.instance.Player.Time_Played % 24;
         bool day_passed = false;
@@ -373,6 +406,46 @@ public class Game : MonoBehaviour
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
 
         // anything else we want to happen overnight
+    }
+
+    public void increment_student_payment()
+    {
+        if((student_payment + house_payment + car_payment) + 100 > Game_Manager.instance.Player.Checking_Account)
+        {
+            s_inc.GetComponent<Button>().interactable = false;
+            h_inc.GetComponent<Button>().interactable = false;
+            c_inc.GetComponent<Button>().interactable = false;
+        }
+        s_dec.GetComponent<Button>().interactable = true;
+        student_payment += 100;
+    }
+
+    public void decrement_student_payment()
+    {
+        if(student_payment == 0)
+        {
+            s_dec.GetComponent<Button>().interactable = false;
+        }
+    }
+
+    public void increment_house_payment()
+    {
+
+    }
+
+    public void decrement_house_payment()
+    {
+
+    }
+
+    public void increment_car_payment()
+    {
+
+    }
+
+    public void decrement_car_payment()
+    {
+
     }
 
     private void font_init()
@@ -401,6 +474,37 @@ public class Game : MonoBehaviour
         time.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
         time.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
         time.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+
+        bank_tab.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
+        bank_tab.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[6].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[7].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[8].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[9].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[10].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[11].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[12].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[13].fontSize = Game_Manager.instance.Font_Size;
+        bank_tab.GetComponentsInChildren<Text>()[14].fontSize = Game_Manager.instance.Font_Size;
+
+        store_tab.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
+        store_tab.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        store_tab.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
+        store_tab.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+        store_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
+
+        fridge_tab.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
+        fridge_tab.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        fridge_tab.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
+        fridge_tab.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+        fridge_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
+
+        GameObject.Find("Store_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
+        GameObject.Find("Bank_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
     }
 
     private void set_bottom_values(string s)
