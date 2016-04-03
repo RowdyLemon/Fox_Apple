@@ -52,9 +52,8 @@ public class Game : MonoBehaviour
     private int house_payment;
     private int car_payment;
 
-    private bool monthly_car_payment;
-    private bool monthly_house_payment;
-    private bool monthly_student_loan_payment;
+    private bool monthly_payment;
+
 
     // Use this for initialization
     void Start()
@@ -71,11 +70,7 @@ public class Game : MonoBehaviour
         alter_bar_values();
         day = 0;
         hour = 0;
-
-        monthly_student_loan_payment = false;
-        monthly_house_payment = false;
-        monthly_car_payment = false;
-        
+        monthly_payment = false;       
         off_screen = new Vector2(1000, 1000);
         on_screen = bank_tab.transform.localPosition;
         fridge_on_screen = fridge_tab.transform.localPosition;
@@ -417,7 +412,7 @@ public class Game : MonoBehaviour
 
         if(day % 30 == 0 && day > 1)
         {
-            if (!monthly_car_payment && !monthly_house_payment && !monthly_student_loan_payment)
+            if (!monthly_payment)
             {
                 Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
                 Game_Manager.instance.scene_loaded = false;
@@ -516,6 +511,9 @@ public class Game : MonoBehaviour
 
         Game_Manager.instance.Player.Debt += (student_payment + house_payment + car_payment);
         top.GetComponentsInChildren<Text>()[2].text = Game_Manager.instance.Player.Debt.ToString("N0");
+
+        if (student_payment > 0 && house_payment > 0 && car_payment > 0)
+            monthly_payment = true;
 
         open_bank();
 
