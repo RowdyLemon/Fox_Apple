@@ -121,14 +121,25 @@ public class Game : MonoBehaviour
         int health_val = (int)(health_change * 10);
         int rest_val = (int)(rest_change * 10);
 
+        Debug.Log("Pre work promo count " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_val;
         Game_Manager.instance.Player.Checking_Account += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
+        Debug.Log("Post work promo count " + Game_Manager.instance.Player.Promotion_Count);
+
+
         promotion_check();
+
+        Debug.Log("Post promo count " + Game_Manager.instance.Player.Promotion_Count);
+
+
         rested_check();
+
+        Debug.Log("Post rested count " + Game_Manager.instance.Player.Promotion_Count);
+
         happiness_check();
         health_check();
         day_passed(amount);
@@ -483,7 +494,7 @@ public class Game : MonoBehaviour
         fridge_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
 
         GameObject.Find("Store_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
-        GameObject.Find("Bank_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
+        GameObject.Find("Bank_button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
     }
 
     private void set_bottom_values(string s)
