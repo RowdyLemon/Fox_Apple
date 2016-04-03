@@ -52,8 +52,9 @@ public class Game : MonoBehaviour
     private int house_payment;
     private int car_payment;
 
-    private bool monthly_payment;
-
+    private bool monthly_car_payment;
+    private bool monthly_house_payment;
+    private bool monthly_student_loan_payment;
 
     // Use this for initialization
     void Start()
@@ -70,7 +71,9 @@ public class Game : MonoBehaviour
         alter_bar_values();
         day = 0;
         hour = 0;
-        monthly_payment = false;       
+        monthly_car_payment = false;
+        monthly_house_payment = false;
+        monthly_student_loan_payment = false;
         off_screen = new Vector2(1000, 1000);
         on_screen = bank_tab.transform.localPosition;
         fridge_on_screen = fridge_tab.transform.localPosition;
@@ -109,7 +112,9 @@ public class Game : MonoBehaviour
         }
 
         int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
+        int rest_val = (int)(rest_change * 5);
 
+        Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
         Game_Manager.instance.Player.Checking_Account -= entertainment_param.cost;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + happiness_val > 100) ? 100 : Game_Manager.instance.Player.Happiness + happiness_val;
         Game_Manager.instance.Player.Time_Played += entertainment_param.amount;
@@ -412,11 +417,13 @@ public class Game : MonoBehaviour
 
         if(day % 30 == 0 && day > 1)
         {
-            if (!monthly_payment)
+            if (!monthly_car_payment && !monthly_house_payment && !monthly_student_loan_payment)
             {
                 Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
                 Game_Manager.instance.scene_loaded = false;
             }
+            else
+                monthly_student_loan_payment = monthly_house_payment = monthly_car_payment = false;
         }
         time.GetComponentsInChildren<Text>()[2].text = day.ToString();
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
@@ -512,8 +519,14 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Debt += (student_payment + house_payment + car_payment);
         top.GetComponentsInChildren<Text>()[2].text = Game_Manager.instance.Player.Debt.ToString("N0");
 
-        if (student_payment > 0 && house_payment > 0 && car_payment > 0)
-            monthly_payment = true;
+        if (student_payment > 0)
+            monthly_student_loan_payment = true;
+
+        if(house_payment > 0)
+            monthly_house_payment = true;
+
+        if(car_payment > 0)
+            monthly_car_payment = true;
 
         open_bank();
     }
