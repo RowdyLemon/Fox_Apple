@@ -16,6 +16,7 @@ public class Game : MonoBehaviour
     public GameObject bank_tab;
     public GameObject store_tab;
     public GameObject modal_panel;
+    public GameObject fridge_tab;
 
     private Vector2 off_screen;
     private Vector2 on_screen;
@@ -59,6 +60,7 @@ public class Game : MonoBehaviour
         modal_on_screen = modal_panel.transform.localPosition;
         bank_tab.transform.localPosition = off_screen;
         modal_panel.transform.localPosition = off_screen;
+        fridge_tab.transform.localPosition = off_screen;
     }
 	
 	// Update is called once per frame
@@ -141,7 +143,11 @@ public class Game : MonoBehaviour
         modal_panel.transform.localPosition = modal_on_screen;
         bank_tab.transform.localPosition = on_screen;
 
-        bank_tab.GetComponentsInChildren<Text>()[1].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString();
+        bank_tab.GetComponentsInChildren<Text>()[0].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString();
+        bank_tab.GetComponentsInChildren<Text>()[9].text = "$" + Game_Manager.instance.Player.Student_Loan.ToString();
+        bank_tab.GetComponentsInChildren<Text>()[10].text = "$" + Game_Manager.instance.Player.House_Loan.ToString();
+        bank_tab.GetComponentsInChildren<Text>()[11].text = "$" + Game_Manager.instance.Player.Car_Loan.ToString();
+
     }
 
     public void close_bank()
@@ -160,6 +166,21 @@ public class Game : MonoBehaviour
     {
         modal_panel.transform.localPosition = off_screen;
         store_tab.transform.localPosition = off_screen;
+    }
+
+    public void open_fridge()
+    {
+        modal_panel.transform.localPosition = modal_on_screen;
+        fridge_tab.transform.localPosition = on_screen;
+
+        fridge_tab.GetComponentsInChildren<Text>()[0].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString();
+
+    }
+
+    public void close_fridge()
+    {
+        modal_panel.transform.localPosition = off_screen;
+        fridge_tab.transform.localPosition = off_screen;
     }
 
     public void purchase_food(int price)
