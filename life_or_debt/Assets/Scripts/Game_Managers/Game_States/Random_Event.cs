@@ -26,7 +26,7 @@ public class Random_Event {
 
     public string Execute_Event()
     {
-        int Random_Value = Random.Range(0, 5);
+        int Random_Value = Random.Range(0, 15);
         if(Random_Value == 3)
         {
             Game_Manager.instance.Player.Checking_Account = (Game_Manager.instance.Player.Checking_Account - Event_Array[0].Debt_Change < 0) ? 0 : Game_Manager.instance.Player.Checking_Account - Event_Array[0].Debt_Change;

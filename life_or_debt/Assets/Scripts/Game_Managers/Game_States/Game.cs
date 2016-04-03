@@ -52,6 +52,10 @@ public class Game : MonoBehaviour
     private int house_payment;
     private int car_payment;
 
+    private bool monthly_car_payment;
+    private bool monthly_house_payment;
+    private bool monthly_student_loan_payment;
+
     // Use this for initialization
     void Start()
     {
@@ -121,14 +125,25 @@ public class Game : MonoBehaviour
         int health_val = (int)(health_change * 10);
         int rest_val = (int)(rest_change * 10);
 
+        Debug.Log("Pre work promo count " + Game_Manager.instance.Player.Promotion_Count);
         Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Job_Level > 2) ? 100 : Game_Manager.instance.Player.Promotion_Count + work_val;
         Game_Manager.instance.Player.Checking_Account += Game_Manager.instance.Player.Player_Job.Hourly_Wage * amount;
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
+        Debug.Log("Post work promo count " + Game_Manager.instance.Player.Promotion_Count);
+
+
         promotion_check();
+
+        Debug.Log("Post promo count " + Game_Manager.instance.Player.Promotion_Count);
+
+
         rested_check();
+
+        Debug.Log("Post rested count " + Game_Manager.instance.Player.Promotion_Count);
+
         happiness_check();
         health_check();
         day_passed(amount);
@@ -404,6 +419,15 @@ public class Game : MonoBehaviour
             set_bottom_values(r_event);
             set_top_values();
         }
+
+        if(day % 30 == 0 && day > 1)
+        {
+            if (!monthly_car_payment && !monthly_house_payment && !monthly_student_loan_payment)
+            {
+                Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
+                Game_Manager.instance.scene_loaded = false;
+            }
+        }
         time.GetComponentsInChildren<Text>()[2].text = day.ToString();
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
 
@@ -570,7 +594,7 @@ public class Game : MonoBehaviour
         fridge_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
 
         GameObject.Find("Store_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
-        GameObject.Find("Bank_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
+        GameObject.Find("Bank_button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
     }
 
     private void set_bottom_values(string s)
