@@ -240,40 +240,19 @@ public class Game : MonoBehaviour
                     Game_Manager.instance.Player.Poor_Food++;
                     food_purchase_check();
                     break;
-                if (Game_Manager.instance.Player.Checking_Account - 25 <= 0)
-                {
-                    Debug.Log("Insufficient Funds");
-                    return;
-                }
-                Game_Manager.instance.Player.Poor_Food++;
-                break;
             case 50:
                     Game_Manager.instance.Player.Middle_Class_Food++;
                     Game_Manager.instance.Player.Checking_Account -=50;
                     food_purchase_check();
                     break;
-                if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
-                {
-                    Debug.Log("Insufficient Funds");
-                    return;
-                }
-                Game_Manager.instance.Player.Middle_Class_Food++;
-                break;
             case 100:
                     Game_Manager.instance.Player.Rich_Food++;
                     Game_Manager.instance.Player.Checking_Account -= 100;
                     food_purchase_check();
                     break;
             }
-                if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
-                {
-                    Debug.Log("Insufficient Funds");
-                    return;
-                }
-                Game_Manager.instance.Player.Rich_Food++;
-                break;
         }
-    }
+    
 
     private void food_purchase_check()
     {
