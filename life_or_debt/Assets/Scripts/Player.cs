@@ -42,5 +42,8 @@ public class Player {
         House_Loan = 0;
         Car_Loan = 0;
         Checking_Account = 0;
+        Poor_Food = 0;
+        Middle_Class_Food = 0;
+        Rich_Food = 0;
     }
 }

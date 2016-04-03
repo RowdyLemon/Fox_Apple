@@ -21,6 +21,7 @@ public class Game : MonoBehaviour
     private Vector2 off_screen;
     private Vector2 on_screen;
     private Vector2 modal_on_screen;
+    private Vector2 fridge_on_screen;
 
     // Player bars
     public GameObject happiness_bar;
@@ -57,10 +58,12 @@ public class Game : MonoBehaviour
         hour = 0;
         off_screen = new Vector2(1000, 1000);
         on_screen = bank_tab.transform.localPosition;
+        fridge_on_screen = fridge_tab.transform.localPosition;
         modal_on_screen = modal_panel.transform.localPosition;
         bank_tab.transform.localPosition = off_screen;
         modal_panel.transform.localPosition = off_screen;
         fridge_tab.transform.localPosition = off_screen;
+        store_tab.transform.localPosition = off_screen;
     }
 	
 	// Update is called once per frame
@@ -132,7 +135,6 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + health_val >= 100) ? 100 : Game_Manager.instance.Player.Health + health_val;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
-        rested_check();
         day_passed(eating_param.amount);
         alter_bar_values();
         set_top_values();
@@ -143,10 +145,10 @@ public class Game : MonoBehaviour
         modal_panel.transform.localPosition = modal_on_screen;
         bank_tab.transform.localPosition = on_screen;
 
-        bank_tab.GetComponentsInChildren<Text>()[0].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString();
-        bank_tab.GetComponentsInChildren<Text>()[9].text = "$" + Game_Manager.instance.Player.Student_Loan.ToString();
-        bank_tab.GetComponentsInChildren<Text>()[10].text = "$" + Game_Manager.instance.Player.House_Loan.ToString();
-        bank_tab.GetComponentsInChildren<Text>()[11].text = "$" + Game_Manager.instance.Player.Car_Loan.ToString();
+        bank_tab.GetComponentsInChildren<Text>()[1].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString("N0");
+        bank_tab.GetComponentsInChildren<Text>()[10].text = "$" + Game_Manager.instance.Player.Student_Loan.ToString("N0");
+        bank_tab.GetComponentsInChildren<Text>()[11].text = "$" + Game_Manager.instance.Player.House_Loan.ToString("N0");
+        bank_tab.GetComponentsInChildren<Text>()[12].text = "$" + Game_Manager.instance.Player.Car_Loan.ToString("N0");
 
     }
 
@@ -160,6 +162,23 @@ public class Game : MonoBehaviour
     {
         modal_panel.transform.localPosition = modal_on_screen;
         store_tab.transform.localPosition = on_screen;
+
+        if(Game_Manager.instance.Player.Checking_Account - 25 < 0)
+            store_tab.GetComponentsInChildren<Button>()[1].interactable = false;
+        else
+            store_tab.GetComponentsInChildren<Button>()[1].interactable = true;
+
+
+        if (Game_Manager.instance.Player.Checking_Account - 50 < 0)
+            store_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+        else 
+            store_tab.GetComponentsInChildren<Button>()[2].interactable = true;
+
+
+        if (Game_Manager.instance.Player.Checking_Account - 100 < 0)
+            store_tab.GetComponentsInChildren<Button>()[3].interactable = false;
+        else
+            store_tab.GetComponentsInChildren<Button>()[3].interactable = true;
     }
 
     public void close_store()
@@ -171,10 +190,28 @@ public class Game : MonoBehaviour
     public void open_fridge()
     {
         modal_panel.transform.localPosition = modal_on_screen;
-        fridge_tab.transform.localPosition = on_screen;
+        fridge_tab.transform.localPosition = fridge_on_screen;
 
-        fridge_tab.GetComponentsInChildren<Text>()[0].text = "$" + Game_Manager.instance.Player.Checking_Account.ToString();
+        if (Game_Manager.instance.Player.Poor_Food == 0)
+            fridge_tab.GetComponentsInChildren<Button>()[1].interactable = false;
+        else
+            fridge_tab.GetComponentsInChildren<Button>()[1].interactable = true;
 
+
+        if (Game_Manager.instance.Player.Middle_Class_Food == 0)
+            fridge_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+        else
+            fridge_tab.GetComponentsInChildren<Button>()[2].interactable = true;
+
+
+        if (Game_Manager.instance.Player.Rich_Food == 0)
+            fridge_tab.GetComponentsInChildren<Button>()[3].interactable = false;
+        else
+            fridge_tab.GetComponentsInChildren<Button>()[3].interactable = true;
+
+        fridge_tab.GetComponentsInChildren<Text>()[2].text = "X" + Game_Manager.instance.Player.Poor_Food.ToString();
+        fridge_tab.GetComponentsInChildren<Text>()[3].text = "X" + Game_Manager.instance.Player.Middle_Class_Food.ToString();
+        fridge_tab.GetComponentsInChildren<Text>()[4].text = "X" + Game_Manager.instance.Player.Rich_Food.ToString();
     }
 
     public void close_fridge()
@@ -188,52 +225,58 @@ public class Game : MonoBehaviour
         switch(price)
             {
             case 25:
-                    if (Game_Manager.instance.Player.Checking_Account - 25 <= 0)
-                    {
-                        Debug.Log("Insufficient Funds");
-                        return;
-                    }
+                    Game_Manager.instance.Player.Checking_Account -= 25;
                     Game_Manager.instance.Player.Poor_Food++;
+                    food_purchase_check();
                     break;
             case 50:
-                    if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
-                    {
-                        Debug.Log("Insufficient Funds");
-                        return;
-                    }
                     Game_Manager.instance.Player.Middle_Class_Food++;
+                    Game_Manager.instance.Player.Checking_Account -=50;
+                    food_purchase_check();
                     break;
             case 100:
-                    if (Game_Manager.instance.Player.Checking_Account - 50 <= 0)
-                    {
-                        Debug.Log("Insufficient Funds");
-                        return;
-                    }
                     Game_Manager.instance.Player.Rich_Food++;
+                    Game_Manager.instance.Player.Checking_Account -= 100;
+                    food_purchase_check();
                     break;
             }
     }
 
-    // Helper Functions
+    private void food_purchase_check()
+    {
+        if (Game_Manager.instance.Player.Checking_Account - 25 < 0)
+            store_tab.GetComponentsInChildren<Button>()[1].interactable = false;
 
-    /*
-     *  Sets font size based on screen size of all text
-     */
+        if (Game_Manager.instance.Player.Checking_Account - 50 < 0)
+            store_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+
+        if (Game_Manager.instance.Player.Checking_Account - 100 < 0)
+            store_tab.GetComponentsInChildren<Button>()[3].interactable = false;
+    }
 
     private void food_check(int health_gain)
     {
         switch(health_gain)
         {
-            case 20:
+            case 10:
                 Game_Manager.instance.Player.Poor_Food--;
+                fridge_tab.GetComponentsInChildren<Text>()[2].text = "X" + Game_Manager.instance.Player.Poor_Food.ToString();
+                if (Game_Manager.instance.Player.Poor_Food == 0)
+                    fridge_tab.GetComponentsInChildren<Button>()[1].interactable = false;
+                break;
+            case 20:
+                Game_Manager.instance.Player.Middle_Class_Food--;
+                fridge_tab.GetComponentsInChildren<Text>()[3].text = "X" + Game_Manager.instance.Player.Middle_Class_Food.ToString();
+                if (Game_Manager.instance.Player.Middle_Class_Food == 0)
+                    fridge_tab.GetComponentsInChildren<Button>()[2].interactable = false;
                 break;
             case 30:
-                Game_Manager.instance.Player.Middle_Class_Food--;
-                break;
-            case 40:
                 Game_Manager.instance.Player.Rich_Food--;
+                fridge_tab.GetComponentsInChildren<Text>()[4].text = "X" + Game_Manager.instance.Player.Rich_Food.ToString();
+                if (Game_Manager.instance.Player.Rich_Food == 0)
+                    fridge_tab.GetComponentsInChildren<Button>()[3].interactable = false;
                 break;
-        }
+        }       
     }
 
     private bool checking_account_check(int amount)
