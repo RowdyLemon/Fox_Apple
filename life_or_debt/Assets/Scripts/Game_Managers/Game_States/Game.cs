@@ -508,13 +508,15 @@ public class Game : MonoBehaviour
 
         if(day % 30 == 0 && day > 1)
         {
-            if (!monthly_car_payment && !monthly_house_payment && !monthly_student_loan_payment)
+            if (monthly_car_payment)
+                if(monthly_house_payment)
+                    if(monthly_student_loan_payment)
+                        monthly_student_loan_payment = monthly_house_payment = monthly_car_payment = false;
+            else
             {
                 Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
                 Game_Manager.instance.scene_loaded = false;
             }
-            else
-                monthly_student_loan_payment = monthly_house_payment = monthly_car_payment = false;
         }
         time.GetComponentsInChildren<Text>()[2].text = day.ToString();
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
@@ -803,13 +805,23 @@ public class Game : MonoBehaviour
         top.GetComponentsInChildren<Text>()[2].text = Game_Manager.instance.Player.Debt.ToString("N0");
 
         if (student_payment > 0)
+        {
             monthly_student_loan_payment = true;
+            Debug.Log("Montly student loan paid");
+        }
 
-        if(house_payment > 0)
+        if (house_payment > 0)
+        {
             monthly_house_payment = true;
+            Debug.Log("house payment made");
+        }
 
-        if(car_payment > 0)
+        if (car_payment > 0)
+        {
             monthly_car_payment = true;
+            Debug.Log("car payment made");
+        }
+
 
         open_bank();
     }
