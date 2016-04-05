@@ -11,6 +11,7 @@ public class Job_Generator : MonoBehaviour
     public GameObject job_title;
     public GameObject hourly_wage;
     public GameObject continue_button;
+    public GameObject title;
 
     public void Awake()
     {
@@ -27,6 +28,7 @@ public class Job_Generator : MonoBehaviour
         congrats.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
         job_title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
         hourly_wage.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
         continue_button.GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
     }
 
