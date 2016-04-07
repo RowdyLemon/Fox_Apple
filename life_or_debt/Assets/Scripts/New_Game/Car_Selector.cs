@@ -9,6 +9,10 @@ public class Car_Selector : MonoBehaviour {
     public GameObject medium;
     public GameObject expensive;
     public GameObject title;
+    public GameObject cheap_loan;
+    public GameObject medium_loan;
+    public GameObject expensive_loan;
+
 
     void Start()
     {
@@ -16,6 +20,9 @@ public class Car_Selector : MonoBehaviour {
         medium.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
         expensive.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
         title.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        cheap_loan.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size;
+        medium_loan.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size;
+        expensive_loan.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size;
     }
 
 	// Use this for initialization

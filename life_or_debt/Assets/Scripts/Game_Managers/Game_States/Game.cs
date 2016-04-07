@@ -55,6 +55,7 @@ public class Game : MonoBehaviour
     private bool monthly_car_payment;
     private bool monthly_house_payment;
     private bool monthly_student_loan_payment;
+    private bool same_day;
 
     // Use this for initialization
     void Start()
@@ -74,6 +75,7 @@ public class Game : MonoBehaviour
         monthly_car_payment = false;
         monthly_house_payment = false;
         monthly_student_loan_payment = false;
+        same_day = false;
         off_screen = new Vector2(1000, 1000);
         on_screen = bank_tab.transform.localPosition;
         fridge_on_screen = fridge_tab.transform.localPosition;
@@ -156,6 +158,10 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health + health_val >= 100) ? 100 : Game_Manager.instance.Player.Health + health_val;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
 
+        if(Game_Manager.instance.Player.Rested == 0)
+            Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - 20 <= 0) ? 0 : Game_Manager.instance.Player.Health - 20;
+
+        health_check();
         day_passed(eating_param.amount);
         alter_bar_values();
         set_top_values();
@@ -457,10 +463,7 @@ public class Game : MonoBehaviour
             happiness_check();
         }
         if (Game_Manager.instance.Player.Health <= 0)
-        {
-            Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
-            Game_Manager.instance.scene_loaded = false;
-        }
+            lose();
 
     }
 
@@ -474,10 +477,10 @@ public class Game : MonoBehaviour
         if (Game_Manager.instance.Player.Promotion_Count >= 100)
         {
             // Promotion
-            float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
+            //float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
 
-            int res = (int)Math.Ceiling(current_wage * 1.1);
-            Game_Manager.instance.Player.Player_Job.Hourly_Wage = res;
+            //int res = (int)Math.Ceiling(current_wage * 1.1);
+            //Game_Manager.instance.Player.Player_Job.Hourly_Wage = res;
 
             if (job_level < 3)
             {
@@ -506,18 +509,37 @@ public class Game : MonoBehaviour
             set_top_values();
         }
 
-        if(day % 30 == 0 && day > 1)
+        if(Game_Manager.instance.Player.Debt == 0)
+        {
+            Game_Manager.instance.current_state = Game_Manager.Game_States.WIN_SCENE;
+            Game_Manager.instance.scene_loaded = false;
+        }
+
+        if(day % 30 == 0 && day > 1 && (!same_day))
         {
             if (monthly_car_payment)
-                if(monthly_house_payment)
-                    if(monthly_student_loan_payment)
-                        monthly_student_loan_payment = monthly_house_payment = monthly_car_payment = false;
-            else
             {
-                Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
-                Game_Manager.instance.scene_loaded = false;
+                if (monthly_house_payment)
+                {
+                    if (monthly_student_loan_payment)
+                    {
+                        monthly_student_loan_payment = false;
+                        monthly_house_payment = false;
+                        monthly_car_payment = false;
+                        same_day = true;
+                    }
+                    else
+                        lose();
+                }
+                else
+                    lose();
             }
+            else
+                lose();
         }
+        if (day % 31 == 0 && day > 1)
+            same_day = false;
+
         time.GetComponentsInChildren<Text>()[2].text = day.ToString();
         time.GetComponentsInChildren<Text>()[3].text = hour.ToString();
 
@@ -824,6 +846,12 @@ public class Game : MonoBehaviour
 
 
         open_bank();
+    }
+
+    private void lose()
+    {
+        Game_Manager.instance.current_state = Game_Manager.Game_States.LOSE_SCENE;
+        Game_Manager.instance.scene_loaded = false;
     }
 
     private void font_init()

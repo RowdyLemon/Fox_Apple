@@ -130,6 +130,7 @@ MonoBehaviour:
   job_title: {fileID: 1733621414}
   hourly_wage: {fileID: 1620614741}
   continue_button: {fileID: 1270032839}
+  title: {fileID: 535739780}
 --- !u!1 &224055788
 GameObject:
   m_ObjectHideFlags: 0

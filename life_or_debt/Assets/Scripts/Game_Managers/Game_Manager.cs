@@ -15,6 +15,7 @@ public class Game_Manager : MonoBehaviour
         CAR_SELECTION,
         PERSONALITY_QUIZ,
         LOSE_SCENE,
+        WIN_SCENE,
         MAIN
     };
 
@@ -118,6 +119,13 @@ public class Game_Manager : MonoBehaviour
                 {
                     scene_loaded = true;
                     SceneManager.LoadScene("Lose_Screen");
+                }
+                break;
+            case Game_States.WIN_SCENE:
+                if (!scene_loaded)
+                {
+                    scene_loaded = true;
+                    SceneManager.LoadScene("Win_Screen");
                 }
                 break;
         }

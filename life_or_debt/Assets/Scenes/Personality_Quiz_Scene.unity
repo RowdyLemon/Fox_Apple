@@ -242,7 +242,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: C) Ill do as much as I can but it might be a little late.
+  m_Text: C) I'll do as much as I can but it might be a little late.
 --- !u!222 &24023368
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -938,7 +938,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: B) due tomorrow, do tomorrow!
+  m_Text: B) Due tomorrow, do tomorrow!
 --- !u!222 &196405405
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1485,7 +1485,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: C) Put some of it asside. Im saving for that new game I want.
+  m_Text: C) Put some of it aside. I'm saving for that new game I want.
 --- !u!222 &386217212
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3287,7 +3287,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'D) Looks like Im pulling an all nighter '
+  m_Text: 'D) Looks like I''m pulling an all nighter '
 --- !u!222 &766871159
 CanvasRenderer:
   m_ObjectHideFlags: 0

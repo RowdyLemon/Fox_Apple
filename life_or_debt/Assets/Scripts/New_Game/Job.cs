@@ -12,6 +12,8 @@ public class Job {
 
     private ArrayList[] Job_Progression = new ArrayList[9];
 
+    private Dictionary<string, int> Salaries = new Dictionary<string, int>();
+
     //public Dictionary<string, LinkedList<string>> Job_Progression = new Dictionary<string, LinkedList<string>>();
  
     public Job()
@@ -34,6 +36,7 @@ public class Job {
 
 
         Populate_Job_Progression();
+        Populate_Salaries();
 
     }
     public Job(int hourly_wage, string name, string ed_requirement, int job_id)
@@ -79,19 +82,19 @@ public class Job {
         Job_Progression[0].Add("Barista");
         Job_Progression[0].Add("Shift Manager");
         Job_Progression[0].Add("Store Manager");
-        Job_Progression[0].Add("Franchise Owner");
+        Job_Progression[0].Add("Regional Manager");
 
         // Server Progression
         Job_Progression[1].Add("Hostess");
         Job_Progression[1].Add("Server");
-        Job_Progression[1].Add("Shift Manager");
+        Job_Progression[1].Add("Restaraunt Shift Manager");
         Job_Progression[1].Add("Manager");
 
         // Web Developer
         Job_Progression[2].Add("IT Technician");
         Job_Progression[2].Add("Quality Assurance");
+        Job_Progression[2].Add("Junior Developer");
         Job_Progression[2].Add("Developer");
-        Job_Progression[2].Add("Senior Developer");
 
         // Bank Teller
         Job_Progression[3].Add("Bank Teller");
@@ -102,8 +105,8 @@ public class Job {
         // Salesman
         Job_Progression[4].Add("Salesman");
         Job_Progression[4].Add("Account Manager");
-        Job_Progression[4].Add("Manager");
         Job_Progression[4].Add("Senior Manager");
+        Job_Progression[4].Add("COO");
 
         // Software Developer
         Job_Progression[5].Add("Software Developer");
@@ -131,9 +134,71 @@ public class Job {
 
     }
 
+    private void Populate_Salaries()
+    {
+        // Barista
+        Salaries.Add("Barista", 8);
+        Salaries.Add("Shift Manager", 10);
+        Salaries.Add("Store Manager", 14);
+        Salaries.Add("Regional Manager", 18);
+
+        // Hostess
+        Salaries.Add("Hostess", 12);
+        Salaries.Add("Server", 15);
+        Salaries.Add("Restaraunt Shift Manager", 14);
+        Salaries.Add("Manager", 20);
+
+        // IT
+        Salaries.Add("IT Technician", 20);
+        Salaries.Add("Quality Assurance", 25);
+        Salaries.Add("Junior Developer", 30);
+        Salaries.Add("Developer", 40);
+
+        // Bank Teller
+        Salaries.Add("Bank Teller", 15);
+        Salaries.Add("Banker", 18);
+        Salaries.Add("Service Manager", 20);
+        Salaries.Add("Branch Manager", 25);
+
+        // Salesman
+        Salaries.Add("Salesman", 30);
+        Salaries.Add("Account Manager", 35);
+        Salaries.Add("Senior Manager", 40);
+        Salaries.Add("COO", 50);
+
+        // Software Developer
+        Salaries.Add("Software Developer", 50);
+        Salaries.Add("Senior Developer", 60);
+        Salaries.Add("Project Lead", 70);
+        Salaries.Add("Project Manager", 100);
+
+        // Assistant College Professor
+        Salaries.Add("Assistant College Professor", 40);
+        Salaries.Add("Associate College Professor", 45);
+        Salaries.Add("College Professor", 50);
+        Salaries.Add("Dean", 80);
+
+        // General Practitioner
+        Salaries.Add("General Practitioner", 80);
+        Salaries.Add("Medical Specialist", 100);
+        Salaries.Add("Surgeon", 110);
+        Salaries.Add("Cheif of Staff", 130);
+
+        // Aerospace Engineer
+        Salaries.Add("Aerospace Engineer", 100);
+        Salaries.Add("Senior Engineer", 120);
+        Salaries.Add("Flight Crew", 150);
+        Salaries.Add("NASA Administrator", 180);
+    }
+
     public void Promotion()
     {
+        int new_wage;
+        string job_name = (string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level];
+        Salaries.TryGetValue(job_name, out new_wage);
+        Debug.Log(job_name + " yeah boi" + new_wage);
         Game_Manager.instance.Player.Player_Job.Name = (string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level];
+        Game_Manager.instance.Player.Player_Job.Hourly_Wage = new_wage;
         Debug.Log((string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level]);
     }
 }

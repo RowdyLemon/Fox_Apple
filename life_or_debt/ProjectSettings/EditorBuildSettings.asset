@@ -25,3 +25,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Personality_Quiz_Scene.unity
   - enabled: 1
     path: Assets/Scenes/Lose_Screen.unity
+  - enabled: 1
+    path: Assets/Scenes/Win_Screen.unity
