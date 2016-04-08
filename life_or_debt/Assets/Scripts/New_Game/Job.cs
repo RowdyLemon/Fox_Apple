@@ -196,9 +196,7 @@ public class Job {
         int new_wage;
         string job_name = (string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level];
         Salaries.TryGetValue(job_name, out new_wage);
-        Debug.Log(job_name + " yeah boi" + new_wage);
         Game_Manager.instance.Player.Player_Job.Name = (string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level];
         Game_Manager.instance.Player.Player_Job.Hourly_Wage = new_wage;
-        Debug.Log((string)Job_Progression[Job_Id][Game_Manager.instance.Player.Job_Level]);
     }
 }

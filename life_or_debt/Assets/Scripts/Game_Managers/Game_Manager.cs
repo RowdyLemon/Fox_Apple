@@ -16,6 +16,7 @@ public class Game_Manager : MonoBehaviour
         PERSONALITY_QUIZ,
         LOSE_SCENE,
         WIN_SCENE,
+        TUTORIAL_SCENE,
         MAIN
     };
 
@@ -126,6 +127,13 @@ public class Game_Manager : MonoBehaviour
                 {
                     scene_loaded = true;
                     SceneManager.LoadScene("Win_Screen");
+                }
+                break;
+            case Game_States.TUTORIAL_SCENE:
+                if (!scene_loaded)
+                {
+                    scene_loaded = true;
+                    SceneManager.LoadScene("Tutorial_Scene");
                 }
                 break;
         }
