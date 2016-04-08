@@ -33,6 +33,11 @@ public class Game : MonoBehaviour
     private Vector2 televsion_on_screen;
     private Vector2 bed_on_screen;
 
+
+    private Vector2 s_check_location;
+    private Vector2 h_check_location;
+    private Vector2 c_check_location;
+
     // Player bars
     public GameObject happiness_bar;
     public GameObject rest_bar;
@@ -58,6 +63,9 @@ public class Game : MonoBehaviour
     public GameObject h_dec;
     public GameObject c_inc;
     public GameObject c_dec;
+    public GameObject s_check;
+    public GameObject h_check;
+    public GameObject c_check;
     private int student_payment;
     private int house_payment;
     private int car_payment;
@@ -102,8 +110,14 @@ public class Game : MonoBehaviour
         televsion_on_screen = tv.transform.localPosition;
         bed_on_screen = cheap_bed.transform.localPosition;
         gold_fish_on_screen = gold_fish.transform.localPosition;
+        c_check_location = c_check.transform.localPosition;
+        h_check_location = h_check.transform.localPosition;
+        s_check_location = s_check.transform.localPosition;
 
 
+        c_check.transform.localPosition = off_screen;
+        h_check.transform.localPosition = off_screen;
+        s_check.transform.localPosition = off_screen;
         tv.transform.localPosition = off_screen;
         //cheap_bed.transform.localPosition = off_screen;
         couch.transform.localPosition = off_screen;
@@ -603,6 +617,9 @@ public class Game : MonoBehaviour
                         monthly_student_loan_payment = false;
                         monthly_house_payment = false;
                         monthly_car_payment = false;
+                        c_check.transform.localPosition = off_screen;
+                        h_check.transform.localPosition = off_screen;
+                        s_check.transform.localPosition = off_screen;
                         same_day = true;
                     }
                     else
@@ -906,19 +923,19 @@ public class Game : MonoBehaviour
         if (student_payment > 0)
         {
             monthly_student_loan_payment = true;
-            Debug.Log("Montly student loan paid");
+            s_check.transform.localPosition = s_check_location;
         }
 
         if (house_payment > 0)
         {
             monthly_house_payment = true;
-            Debug.Log("house payment made");
+            h_check.transform.localPosition = h_check_location;
         }
 
         if (car_payment > 0)
         {
             monthly_car_payment = true;
-            Debug.Log("car payment made");
+            c_check.transform.localPosition = c_check_location;
         }
 
 
