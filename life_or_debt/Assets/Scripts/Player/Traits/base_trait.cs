@@ -65,6 +65,8 @@ public class base_trait
     public double Mood { get { return mood; } }
     public double Thriftyness { get { return thriftyness; } }
 
+    public void alter_thriftyness(double amount) { thriftyness += amount; }
+
     /*
      * + operator overload, allows the addition of two traits using just the + operator
      * e.g. base_trait c = base_trait a + base_trait b; 

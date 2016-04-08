@@ -15,13 +15,23 @@ public class Game : MonoBehaviour
     public GameObject car;
     public GameObject bank_tab;
     public GameObject store_tab;
+    public GameObject store_tab2;
     public GameObject modal_panel;
     public GameObject fridge_tab;
+    public GameObject couch;
+    public GameObject tv;
+    public GameObject cheap_bed;
+    public GameObject gold_fish;
 
     private Vector2 off_screen;
     private Vector2 on_screen;
     private Vector2 modal_on_screen;
     private Vector2 fridge_on_screen;
+    private Vector2 gold_fish_on_screen;
+
+    private Vector2 couch_on_screen;
+    private Vector2 televsion_on_screen;
+    private Vector2 bed_on_screen;
 
     // Player bars
     public GameObject happiness_bar;
@@ -57,6 +67,11 @@ public class Game : MonoBehaviour
     private bool monthly_student_loan_payment;
     private bool same_day;
 
+
+    private bool gold_fish_purchased = false;
+    private bool television_purchased = false;
+    private bool couch_purchased = false;
+
     // Use this for initialization
     void Start()
     {
@@ -78,12 +93,26 @@ public class Game : MonoBehaviour
         same_day = false;
         off_screen = new Vector2(1000, 1000);
         on_screen = bank_tab.transform.localPosition;
+
+        
+        // Need to set all of the below based on the type of house
         fridge_on_screen = fridge_tab.transform.localPosition;
         modal_on_screen = modal_panel.transform.localPosition;
+        couch_on_screen = couch.transform.localPosition;
+        televsion_on_screen = tv.transform.localPosition;
+        bed_on_screen = cheap_bed.transform.localPosition;
+        gold_fish_on_screen = gold_fish.transform.localPosition;
+
+
+        tv.transform.localPosition = off_screen;
+        //cheap_bed.transform.localPosition = off_screen;
+        couch.transform.localPosition = off_screen;
+        gold_fish.transform.localPosition = off_screen;
         bank_tab.transform.localPosition = off_screen;
         modal_panel.transform.localPosition = off_screen;
         fridge_tab.transform.localPosition = off_screen;
         store_tab.transform.localPosition = off_screen;
+        store_tab2.transform.localPosition = off_screen;
     }
 
     // Update is called once per frame
@@ -92,16 +121,17 @@ public class Game : MonoBehaviour
 
     }
 
-    public void rest(int amount)
+    public void rest(Sleeping_Param sleeping_param)
     {
-        int rest_time = (int)(rest_change * 10);
+        int rest_time = (int)(rest_change * sleeping_param.rested_gain);
         int health_val = (int)(health_change * 5);
 
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested + rest_time > 100) ? 100 : Game_Manager.instance.Player.Rested + rest_time;
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
+        Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness + sleeping_param.entertainment_gain > 100) ? 100 : Game_Manager.instance.Player.Happiness + sleeping_param.entertainment_gain;
 
         health_check();
-        day_passed(amount);
+        day_passed(sleeping_param.sleep_length);
         alter_bar_values();
     }
 
@@ -137,7 +167,6 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - happiness_val <= 0) ? 0 : Game_Manager.instance.Player.Happiness - happiness_val;
         Game_Manager.instance.Player.Health = (Game_Manager.instance.Player.Health - health_val <= 0) ? 0 : Game_Manager.instance.Player.Health - health_val;
         Game_Manager.instance.Player.Rested = (Game_Manager.instance.Player.Rested - rest_val <= 0) ? 0 : Game_Manager.instance.Player.Rested - rest_val;
-
 
         promotion_check();
         rested_check();
@@ -303,6 +332,7 @@ public class Game : MonoBehaviour
     {
         modal_panel.transform.localPosition = modal_on_screen;
         store_tab.transform.localPosition = on_screen;
+        store_tab2.transform.localPosition = off_screen;
 
         if(Game_Manager.instance.Player.Checking_Account - 25 < 0)
             store_tab.GetComponentsInChildren<Button>()[1].interactable = false;
@@ -322,10 +352,35 @@ public class Game : MonoBehaviour
             store_tab.GetComponentsInChildren<Button>()[3].interactable = true;
     }
 
+    public void open_store_tab_2()
+    {
+        store_tab.transform.localPosition = off_screen;
+        store_tab2.transform.localPosition = on_screen;
+
+        if (Game_Manager.instance.Player.Checking_Account - 25 < 0 || gold_fish_purchased)
+            store_tab2.GetComponentsInChildren<Button>()[1].interactable = false;
+        else
+            store_tab2.GetComponentsInChildren<Button>()[1].interactable = true;
+
+
+        if (Game_Manager.instance.Player.Checking_Account - 500 < 0 || couch_purchased)
+            store_tab2.GetComponentsInChildren<Button>()[2].interactable = false;
+        else
+            store_tab2.GetComponentsInChildren<Button>()[2].interactable = true;
+
+
+        if (Game_Manager.instance.Player.Checking_Account - 1000 < 0 || television_purchased)
+            store_tab2.GetComponentsInChildren<Button>()[3].interactable = false;
+        else
+            store_tab2.GetComponentsInChildren<Button>()[3].interactable = true;
+
+    }
+
     public void close_store()
     {
         modal_panel.transform.localPosition = off_screen;
         store_tab.transform.localPosition = off_screen;
+        store_tab2.transform.localPosition = off_screen;
     }
 
     public void open_fridge()
@@ -383,6 +438,34 @@ public class Game : MonoBehaviour
             }
         }
     
+    public void purchase_house_items(int price)
+    {
+        switch (price)
+        {
+            // gold fish
+            case 25:
+                gold_fish.transform.localPosition = gold_fish_on_screen;
+                Game_Manager.instance.Player.Checking_Account -= 25;
+                Game_Manager.instance.Player.Player_Traits.alter_thriftyness(.2);
+                gold_fish_purchased = true;
+                store_tab2.GetComponentsInChildren<Button>()[1].interactable = false;
+                break;
+            // couch
+            case 500:
+                couch.transform.localPosition = couch_on_screen;
+                Game_Manager.instance.Player.Checking_Account -= 500;
+                couch_purchased = true;
+                store_tab2.GetComponentsInChildren<Button>()[2].interactable = false;
+                break;
+            // tv
+            case 1000:
+                tv.transform.localPosition = televsion_on_screen;
+                Game_Manager.instance.Player.Checking_Account -= 1000;
+                television_purchased = true;
+                store_tab2.GetComponentsInChildren<Button>()[3].interactable = false;
+                break;
+        }
+    }
 
     private void food_purchase_check()
     {
@@ -476,12 +559,6 @@ public class Game : MonoBehaviour
 
         if (Game_Manager.instance.Player.Promotion_Count >= 100)
         {
-            // Promotion
-            //float current_wage = Game_Manager.instance.Player.Player_Job.Hourly_Wage;
-
-            //int res = (int)Math.Ceiling(current_wage * 1.1);
-            //Game_Manager.instance.Player.Player_Job.Hourly_Wage = res;
-
             if (job_level < 3)
             {
                 Game_Manager.instance.Player.Job_Level++;

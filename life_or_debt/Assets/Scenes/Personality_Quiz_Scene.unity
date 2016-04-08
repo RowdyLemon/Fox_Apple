@@ -3569,7 +3569,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D) Im no frivilous spender! Its all going into savings.
+  m_Text: D) I'm no frivilous spender! Its all going into savings.
 --- !u!222 &910669034
 CanvasRenderer:
   m_ObjectHideFlags: 0
