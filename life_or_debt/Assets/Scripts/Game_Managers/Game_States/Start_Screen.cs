@@ -10,8 +10,8 @@ public class Start_Screen : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        play_button.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
-        tutorial_button.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size * 2;
+        play_button.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size/2;
+        tutorial_button.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size + Game_Manager.instance.Font_Size / 2;
     }
 	
 	// Update is called once per frame
