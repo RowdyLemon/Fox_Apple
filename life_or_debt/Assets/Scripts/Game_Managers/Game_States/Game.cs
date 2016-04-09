@@ -996,6 +996,12 @@ public class Game : MonoBehaviour
         store_tab.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
         store_tab.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
         store_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
+       
+        store_tab2.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
+        store_tab2.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        store_tab2.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
+        store_tab2.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
+        store_tab2.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
 
         fridge_tab.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
         fridge_tab.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
