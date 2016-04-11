@@ -23,10 +23,10 @@ public class Game : MonoBehaviour
     public GameObject cheap_bed;
     public GameObject gold_fish;
 
-    private Vector2 off_screen;
-    private Vector2 on_screen;
+    private Vector3 off_screen;
+    private Vector3 on_screen;
     private Vector2 modal_on_screen;
-    private Vector2 fridge_on_screen;
+    private Vector3 fridge_on_screen;
     private Vector2 gold_fish_on_screen;
 
     private Vector2 couch_on_screen;
@@ -99,7 +99,7 @@ public class Game : MonoBehaviour
         monthly_house_payment = false;
         monthly_student_loan_payment = false;
         same_day = false;
-        off_screen = new Vector2(1000, 1000);
+        off_screen = new Vector3(1000, 1000, 0);
         on_screen = bank_tab.transform.localPosition;
 
         

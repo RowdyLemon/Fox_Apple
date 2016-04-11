@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Sprites
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: Modal
     uniqueID: 3255037167
+    locked: 0
+  - name: Sprites
+    uniqueID: 1052321999
     locked: 0
