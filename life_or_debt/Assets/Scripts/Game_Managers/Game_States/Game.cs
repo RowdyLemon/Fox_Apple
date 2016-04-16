@@ -27,12 +27,14 @@ public class Game : MonoBehaviour
     public GameObject Min_House;
     public GameObject Min_Car;
     public GameObject Checking_Account;
+    public GameObject Life_Event;
 
     private Vector3 off_screen;
     private Vector3 on_screen;
     private Vector2 modal_on_screen;
     private Vector3 fridge_on_screen;
     private Vector2 gold_fish_on_screen;
+    private Vector2 life_event_on_screen;
 
     private Vector2 couch_on_screen;
     private Vector2 couch2_on_screen;
@@ -122,6 +124,7 @@ public class Game : MonoBehaviour
 
         
         // Need to set all of the below based on the type of house
+        life_event_on_screen = Life_Event.transform.localPosition;
         fridge_on_screen = fridge_tab.transform.localPosition;
         modal_on_screen = modal_panel.transform.localPosition;
         couch_on_screen = couch.transform.localPosition;
@@ -134,6 +137,7 @@ public class Game : MonoBehaviour
         s_check_location = s_check.transform.localPosition;
 
 
+        Life_Event.transform.localPosition = off_screen;
         c_check.transform.localPosition = off_screen;
         h_check.transform.localPosition = off_screen;
         s_check.transform.localPosition = off_screen;
@@ -461,6 +465,12 @@ public class Game : MonoBehaviour
         fridge_tab.transform.localPosition = off_screen;
     }
 
+    public void close_life_event()
+    {
+        Life_Event.transform.localPosition = off_screen;
+        modal_panel.transform.localPosition = off_screen;
+    }
+
     public void purchase_food(int price)
     {
         switch (price)
@@ -629,6 +639,12 @@ public class Game : MonoBehaviour
         {
             Game_Manager.instance.Player.Happiness = (Game_Manager.instance.Player.Happiness - 5 <= 0) ? 0 : Game_Manager.instance.Player.Happiness - 5;
             string r_event = random_event.Execute_Event();
+            if(!r_event.Equals(""))
+            {
+                modal_panel.transform.localPosition = modal_on_screen;
+                Life_Event.transform.localPosition = life_event_on_screen;
+                Life_Event.GetComponentsInChildren<Text>()[2].text = r_event;
+            }
             set_bottom_values(r_event);
             set_top_values();
             set_side_values(); 
@@ -1106,6 +1122,10 @@ public class Game : MonoBehaviour
         fridge_tab.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
         fridge_tab.GetComponentsInChildren<Text>()[3].fontSize = Game_Manager.instance.Font_Size;
         fridge_tab.GetComponentsInChildren<Text>()[4].fontSize = Game_Manager.instance.Font_Size;
+
+        Life_Event.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size * 2;
+        Life_Event.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
+        Life_Event.GetComponentsInChildren<Text>()[2].fontSize = Game_Manager.instance.Font_Size;
 
         GameObject.Find("Store_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
         GameObject.Find("Bank_button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
