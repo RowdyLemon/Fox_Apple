@@ -8,17 +8,18 @@ public class Game : MonoBehaviour
 
     public GameObject top;
     public GameObject side;
-    public GameObject bottom;
     public GameObject go_to_work;
     public GameObject go_out;
     public GameObject time;
-    public GameObject car;
     public GameObject bank_tab;
     public GameObject store_tab;
     public GameObject store_tab2;
+    public GameObject work_or_fun_tab;
     public GameObject modal_panel;
     public GameObject fridge_tab;
+
     public GameObject couch;
+    public GameObject car;
     public GameObject tv;
     public GameObject cheap_bed;
     public GameObject gold_fish;
@@ -36,6 +37,8 @@ public class Game : MonoBehaviour
     private Vector2 gold_fish_on_screen;
     private Vector2 life_event_on_screen;
 
+    private Vector2 house_on_screen;
+
     private Vector2 couch_on_screen;
     private Vector2 couch2_on_screen;
     private Vector2 televsion_on_screen;
@@ -45,6 +48,11 @@ public class Game : MonoBehaviour
     private Vector2 s_check_location;
     private Vector2 h_check_location;
     private Vector2 c_check_location;
+
+    // Different Houses
+    public GameObject small_house;
+    public GameObject medium_house;
+    public GameObject large_house;
 
     // Player bars
     public GameObject happiness_bar;
@@ -99,7 +107,14 @@ public class Game : MonoBehaviour
         rest_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         job_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         health_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-        car.GetComponent<Image>().sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
+
+        if(Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+            small_house.GetComponentsInChildren<Image>()[2].sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
+        else if(Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+            medium_house.GetComponentsInChildren<Image>()[2].sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
+        else
+            large_house.GetComponentsInChildren<Image>()[2].sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
+
         alter_bar_values();
         day = 0;
         hour = 0;
@@ -119,19 +134,26 @@ public class Game : MonoBehaviour
         else if (Game_Manager.instance.Player.Degree.Equals("Master's"))
             Min_Student.GetComponent<Text>().text = "Min: " + 250;
         else
-            Min_Student.GetComponent<Text>().text = "Min: " + 350;
+            Min_Student.GetComponent<Text>().text = "Min: " + 350;   
 
+        // Per House
+        small_house.GetComponentsInChildren<Image>()[3].enabled = false;
+        small_house.GetComponentsInChildren<Image>()[4].enabled = false;
+        small_house.GetComponentsInChildren<Image>()[5].enabled = false;
+        small_house.GetComponentsInChildren<Image>()[6].enabled = false;
 
-        
-        // Need to set all of the below based on the type of house
+        medium_house.GetComponentsInChildren<Image>()[3].enabled = false;
+        medium_house.GetComponentsInChildren<Image>()[4].enabled = false;
+        medium_house.GetComponentsInChildren<Image>()[5].enabled = false;
+        medium_house.GetComponentsInChildren<Image>()[6].enabled = false;
+
+        large_house.GetComponentsInChildren<Image>()[3].enabled = false;
+        large_house.GetComponentsInChildren<Image>()[4].enabled = false;
+        large_house.GetComponentsInChildren<Image>()[5].enabled = false;
+        large_house.GetComponentsInChildren<Image>()[6].enabled = false;
+
         life_event_on_screen = Life_Event.transform.localPosition;
-        fridge_on_screen = fridge_tab.transform.localPosition;
         modal_on_screen = modal_panel.transform.localPosition;
-        couch_on_screen = couch.transform.localPosition;
-        couch2_on_screen = couch2.transform.localPosition;
-        televsion_on_screen = tv.transform.localPosition;
-        bed_on_screen = cheap_bed.transform.localPosition;
-        gold_fish_on_screen = gold_fish.transform.localPosition;
         c_check_location = c_check.transform.localPosition;
         h_check_location = h_check.transform.localPosition;
         s_check_location = s_check.transform.localPosition;
@@ -142,15 +164,30 @@ public class Game : MonoBehaviour
         h_check.transform.localPosition = off_screen;
         s_check.transform.localPosition = off_screen;
         tv.transform.localPosition = off_screen;
-        //cheap_bed.transform.localPosition = off_screen;
-        couch2.transform.localPosition = off_screen;
-        couch.transform.localPosition = off_screen;
-        gold_fish.transform.localPosition = off_screen;
+
         bank_tab.transform.localPosition = off_screen;
         modal_panel.transform.localPosition = off_screen;
         fridge_tab.transform.localPosition = off_screen;
         store_tab.transform.localPosition = off_screen;
         store_tab2.transform.localPosition = off_screen;
+        work_or_fun_tab.transform.localPosition = off_screen;
+
+        // Per House
+        if(Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+        {
+            medium_house.transform.localPosition = off_screen;
+            large_house.transform.localPosition = off_screen;
+        }
+        else if(Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+        {
+            small_house.transform.localPosition = off_screen;
+            large_house.transform.localPosition = off_screen;
+        }
+        else
+        {
+            small_house.transform.localPosition = off_screen;
+            medium_house.transform.localPosition = off_screen;
+        }
     }
 
     // Update is called once per frame
@@ -465,6 +502,18 @@ public class Game : MonoBehaviour
         fridge_tab.transform.localPosition = off_screen;
     }
 
+    public void open_work_or_fun()
+    {
+        modal_panel.transform.localPosition = modal_on_screen;
+        work_or_fun_tab.transform.localPosition = on_screen;
+    }
+
+    public void close_work_or_fun()
+    {
+        modal_panel.transform.localPosition = off_screen;
+        work_or_fun_tab.transform.localPosition = off_screen;
+    }
+
     public void close_life_event()
     {
         Life_Event.transform.localPosition = off_screen;
@@ -500,7 +549,12 @@ public class Game : MonoBehaviour
         {
             // gold fish
             case 25:
-                gold_fish.transform.localPosition = gold_fish_on_screen;
+                if (Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+                    small_house.GetComponentsInChildren<Image>()[3].enabled = true;
+                else if (Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+                    medium_house.GetComponentsInChildren<Image>()[3].enabled = true;
+                else
+                    large_house.GetComponentsInChildren<Image>()[3].enabled = true;       
                 Game_Manager.instance.Player.Checking_Account -= 25;
                 Game_Manager.instance.Player.Player_Traits.alter_thriftyness(.2);
                 gold_fish_purchased = true;
@@ -508,15 +562,33 @@ public class Game : MonoBehaviour
                 break;
             // couch
             case 500:
-                couch.transform.localPosition = couch_on_screen;
-                couch2.transform.localPosition = couch2_on_screen;
+                if(Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+                {
+                    small_house.GetComponentsInChildren<Image>()[4].enabled = true;
+                    small_house.GetComponentsInChildren<Image>()[5].enabled = true;
+                }
+                else if(Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+                {
+                    medium_house.GetComponentsInChildren<Image>()[4].enabled = true;
+                    medium_house.GetComponentsInChildren<Image>()[5].enabled = true;
+                }
+                else
+                {
+                    large_house.GetComponentsInChildren<Image>()[4].enabled = true;
+                    large_house.GetComponentsInChildren<Image>()[5].enabled = true;
+                }
                 Game_Manager.instance.Player.Checking_Account -= 500;
                 couch_purchased = true;
                 store_tab2.GetComponentsInChildren<Button>()[2].interactable = false;
                 break;
             // tv
             case 1000:
-                tv.transform.localPosition = televsion_on_screen;
+                if (Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+                    small_house.GetComponentsInChildren<Image>()[6].enabled = true;
+                else if (Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+                    medium_house.GetComponentsInChildren<Image>()[6].enabled = true;
+                else
+                    large_house.GetComponentsInChildren<Image>()[6].enabled = true;
                 Game_Manager.instance.Player.Checking_Account -= 1000;
                 television_purchased = true;
                 store_tab2.GetComponentsInChildren<Button>()[3].interactable = false;
@@ -628,7 +700,6 @@ public class Game : MonoBehaviour
 
     private void day_passed(int amount)
     {
-        bottom.GetComponentsInChildren<Text>()[1].text = "";
         Game_Manager.instance.Player.Time_Played += amount;
         hour = Game_Manager.instance.Player.Time_Played % 24;
         bool day_passed = false;
@@ -645,7 +716,6 @@ public class Game : MonoBehaviour
                 Life_Event.transform.localPosition = life_event_on_screen;
                 Life_Event.GetComponentsInChildren<Text>()[2].text = r_event;
             }
-            set_bottom_values(r_event);
             set_top_values();
             set_side_values(); 
         }
@@ -1077,10 +1147,6 @@ public class Game : MonoBehaviour
         side.GetComponentsInChildren<Text>()[7].fontSize = Game_Manager.instance.Font_Size;
         side.GetComponentsInChildren<Text>()[8].fontSize = Game_Manager.instance.Font_Size;
 
-
-        bottom.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size;
-        bottom.GetComponentsInChildren<Text>()[1].fontSize = Game_Manager.instance.Font_Size;
-
         go_to_work.GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
         go_out.GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
 
@@ -1129,12 +1195,6 @@ public class Game : MonoBehaviour
 
         GameObject.Find("Store_Button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
         GameObject.Find("Bank_button").GetComponentInChildren<Text>().fontSize = Game_Manager.instance.Font_Size;
-    }
-
-    private void set_bottom_values(string s)
-    {
-        if(!(string.IsNullOrEmpty(s)))
-            bottom.GetComponentsInChildren<Text>()[1].text = s;
     }
 
     private void set_top_values()
