@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Car {
 
-    public int Sell_Value;
     public int Buy_Value;
+    public int Min_Payment;
     public int Age;
     public string Name;
 
@@ -14,15 +14,15 @@ public class Car {
 
     public Car()
     {
-        POS = new Car(2500, 5000, 18, "pos_car");
-        Decent = new Car(5000, 10000, 8, "decent");
-        Quality = new Car(15000, 25000, 3, "nice_car");
+        POS = new Car(2500, 200, 18, "pos_car");
+        Decent = new Car(5000, 300, 8, "decent");
+        Quality = new Car(15000, 500, 3, "nice_car");
     }
 
-    public Car(int sell_value, int buy_value, int age, string name)
+    public Car(int buy_Value, int min_payment, int age, string name)
     {
-        Sell_Value = sell_value;
-        Buy_Value = buy_value;
+        Buy_Value = buy_Value;
+        Min_Payment = min_payment;
         Age = age;
         Name = name;
     }

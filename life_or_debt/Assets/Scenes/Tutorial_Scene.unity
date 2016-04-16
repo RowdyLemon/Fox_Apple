@@ -2710,7 +2710,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Here the player can view their account balance and pay loans
+  m_Text: Here you can view their account balance and pay loans
 --- !u!222 &1245089844
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2852,7 +2852,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: This is the player's name
+  m_Text: This is your name
 --- !u!222 &1386621507
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2925,7 +2925,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: after you buy a tv or couch you can click to rest or have fun here
+  m_Text: After you buy a tv or couch you can click to rest or have fun here
 --- !u!222 &1397959032
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3946,7 +3946,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: This is the player's total debt
+  m_Text: This is your total debt
 --- !u!222 &1918960918
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4201,7 +4201,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Here the player can purchase food and other things to boost stats
+  m_Text: Here you can purchase food and other things to boost stats
 --- !u!222 &1971806581
 CanvasRenderer:
   m_ObjectHideFlags: 0

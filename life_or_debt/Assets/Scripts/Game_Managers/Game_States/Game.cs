@@ -22,6 +22,11 @@ public class Game : MonoBehaviour
     public GameObject tv;
     public GameObject cheap_bed;
     public GameObject gold_fish;
+    public GameObject couch2;
+    public GameObject Min_Student;
+    public GameObject Min_House;
+    public GameObject Min_Car;
+    public GameObject Checking_Account;
 
     private Vector3 off_screen;
     private Vector3 on_screen;
@@ -30,6 +35,7 @@ public class Game : MonoBehaviour
     private Vector2 gold_fish_on_screen;
 
     private Vector2 couch_on_screen;
+    private Vector2 couch2_on_screen;
     private Vector2 televsion_on_screen;
     private Vector2 bed_on_screen;
 
@@ -101,12 +107,25 @@ public class Game : MonoBehaviour
         same_day = false;
         off_screen = new Vector3(1000, 1000, 0);
         on_screen = bank_tab.transform.localPosition;
+        Min_Car.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size;
+        Min_House.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size;
+        Min_Student.GetComponent<Text>().fontSize = Game_Manager.instance.Font_Size;
+        Min_Car.GetComponent<Text>().text = "Min: " + Game_Manager.instance.Player.Player_Car.Min_Payment;
+        Min_House.GetComponent<Text>().text = "Min: " + Game_Manager.instance.Player.Player_House.Min_Payment;
+        if(Game_Manager.instance.Player.Degree.Equals("Bachelor's"))
+            Min_Student.GetComponent<Text>().text = "Min: " + 150;
+        else if (Game_Manager.instance.Player.Degree.Equals("Master's"))
+            Min_Student.GetComponent<Text>().text = "Min: " + 250;
+        else
+            Min_Student.GetComponent<Text>().text = "Min: " + 350;
+
 
         
         // Need to set all of the below based on the type of house
         fridge_on_screen = fridge_tab.transform.localPosition;
         modal_on_screen = modal_panel.transform.localPosition;
         couch_on_screen = couch.transform.localPosition;
+        couch2_on_screen = couch2.transform.localPosition;
         televsion_on_screen = tv.transform.localPosition;
         bed_on_screen = cheap_bed.transform.localPosition;
         gold_fish_on_screen = gold_fish.transform.localPosition;
@@ -120,6 +139,7 @@ public class Game : MonoBehaviour
         s_check.transform.localPosition = off_screen;
         tv.transform.localPosition = off_screen;
         //cheap_bed.transform.localPosition = off_screen;
+        couch2.transform.localPosition = off_screen;
         couch.transform.localPosition = off_screen;
         gold_fish.transform.localPosition = off_screen;
         bank_tab.transform.localPosition = off_screen;
@@ -167,6 +187,7 @@ public class Game : MonoBehaviour
         day_passed(entertainment_param.amount);
         alter_bar_values();
         set_top_values();
+        set_side_values();
     }
 
     public void work(int amount)
@@ -189,6 +210,7 @@ public class Game : MonoBehaviour
         day_passed(amount);
         alter_bar_values();
         set_top_values();
+        set_side_values();
     }
 
     public void eat(Eating_Param eating_param)
@@ -231,6 +253,13 @@ public class Game : MonoBehaviour
         bank_tab.GetComponentsInChildren<Button>()[0].interactable = false;
         bank_tab.GetComponentsInChildren<Button>()[3].interactable = false;
         bank_tab.GetComponentsInChildren<Button>()[5].interactable = false;
+
+        if (monthly_car_payment)
+            c_check.transform.localPosition = c_check_location;
+        if (monthly_house_payment)
+            h_check.transform.localPosition = h_check_location;
+        if (monthly_student_loan_payment)
+            s_check.transform.localPosition = s_check_location;
 
 
         if(Game_Manager.instance.Player.Degree == "Bachelor's")
@@ -450,6 +479,7 @@ public class Game : MonoBehaviour
                     food_purchase_check();
                     break;
             }
+        set_side_values();
         }
     
     public void purchase_house_items(int price)
@@ -467,6 +497,7 @@ public class Game : MonoBehaviour
             // couch
             case 500:
                 couch.transform.localPosition = couch_on_screen;
+                couch2.transform.localPosition = couch2_on_screen;
                 Game_Manager.instance.Player.Checking_Account -= 500;
                 couch_purchased = true;
                 store_tab2.GetComponentsInChildren<Button>()[2].interactable = false;
@@ -479,6 +510,7 @@ public class Game : MonoBehaviour
                 store_tab2.GetComponentsInChildren<Button>()[3].interactable = false;
                 break;
         }
+        set_side_values();
     }
 
     private void food_purchase_check()
@@ -527,7 +559,6 @@ public class Game : MonoBehaviour
 
     private void rested_check()
     {
-
         if (Game_Manager.instance.Player.Rested < 30)
             Game_Manager.instance.Player.Promotion_Count = (Game_Manager.instance.Player.Promotion_Count - 20 <= 0) ? 0 : Game_Manager.instance.Player.Promotion_Count - 20;
         if (Game_Manager.instance.Player.Promotion_Count == 0 && Game_Manager.instance.Player.Job_Level > 0)
@@ -598,6 +629,7 @@ public class Game : MonoBehaviour
             string r_event = random_event.Execute_Event();
             set_bottom_values(r_event);
             set_top_values();
+            set_side_values(); 
         }
 
         if(Game_Manager.instance.Player.Debt == 0)
@@ -614,9 +646,9 @@ public class Game : MonoBehaviour
                 {
                     if (monthly_student_loan_payment)
                     {
-                        monthly_student_loan_payment = false;
-                        monthly_house_payment = false;
-                        monthly_car_payment = false;
+                        monthly_student_loan_payment = (Game_Manager.instance.Player.Student_Loan == 0) ? true : false;
+                        monthly_house_payment = (Game_Manager.instance.Player.House_Loan == 0) ? true : false;
+                        monthly_car_payment = (Game_Manager.instance.Player.Car_Loan == 0) ? true : false;
                         c_check.transform.localPosition = off_screen;
                         h_check.transform.localPosition = off_screen;
                         s_check.transform.localPosition = off_screen;
@@ -642,22 +674,27 @@ public class Game : MonoBehaviour
 
     public void increment_student_payment()
     {
+        if (Game_Manager.instance.Player.Student_Loan == 0)
+        {
+            s_dec.GetComponent<Button>().interactable = false;
+            return;
+        }
         if(Game_Manager.instance.Player.Degree == "Bachelor's")
         {
             s_dec.GetComponent<Button>().interactable = true;
-            student_payment += 150;
+            student_payment = (student_payment + 150 < Game_Manager.instance.Player.Student_Loan) ? student_payment + 150 : student_payment = Game_Manager.instance.Player.Student_Loan;
             bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
         }
         else if(Game_Manager.instance.Player.Degree == "Master's")
         {
             s_dec.GetComponent<Button>().interactable = true;
-            student_payment += 250;
+            student_payment = (student_payment + 250 < Game_Manager.instance.Player.Student_Loan) ? student_payment + 250 : student_payment = Game_Manager.instance.Player.Student_Loan;
             bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
         }
         else
         {
             s_dec.GetComponent<Button>().interactable = true;
-            student_payment += 350;
+            student_payment = (student_payment + 350 < Game_Manager.instance.Player.Student_Loan) ? student_payment + 350 : student_payment = Game_Manager.instance.Player.Student_Loan;
             bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
         }
         unlock_increment();
@@ -669,7 +706,7 @@ public class Game : MonoBehaviour
         {
             student_payment -= 150;
             bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
-            if (student_payment == 0)
+            if (student_payment <= 0)
             {
                 s_dec.GetComponent<Button>().interactable = false;
             }
@@ -678,7 +715,7 @@ public class Game : MonoBehaviour
         {
             student_payment -= 250;
             bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
-            if (student_payment == 0)
+            if (student_payment <= 0)
             {
                 s_dec.GetComponent<Button>().interactable = false;
             }
@@ -687,7 +724,7 @@ public class Game : MonoBehaviour
         {
             student_payment -= 350;
             bank_tab.GetComponentsInChildren<Text>()[5].text = "$" + student_payment.ToString("N0");
-            if (student_payment == 0)
+            if (student_payment <= 0)
             {
                 s_dec.GetComponent<Button>().interactable = false;
             }
@@ -697,22 +734,27 @@ public class Game : MonoBehaviour
 
     public void increment_house_payment()
     {
+        if(Game_Manager.instance.Player.House_Loan == 0)
+        {
+            h_dec.GetComponent<Button>().interactable = false;
+            return;
+        }
         if(Game_Manager.instance.Player.Player_House.Neighborhood == "Sketchy")
         {
             h_dec.GetComponent<Button>().interactable = true;
-            house_payment += 800;
+            house_payment = (house_payment + 800 < Game_Manager.instance.Player.House_Loan) ? house_payment + 800 : house_payment = Game_Manager.instance.Player.House_Loan;
             bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
         }
         else if(Game_Manager.instance.Player.Player_House.Neighborhood == "Decent")
         {
             h_dec.GetComponent<Button>().interactable = true;
-            house_payment += 1200;
+            house_payment = (house_payment + 1200 < Game_Manager.instance.Player.House_Loan) ? house_payment + 1200 : house_payment = Game_Manager.instance.Player.House_Loan;
             bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
         }
         else
         {
             h_dec.GetComponent<Button>().interactable = true;
-            house_payment += 2500;
+            house_payment = (house_payment + 2500 < Game_Manager.instance.Player.House_Loan) ? house_payment + 2500 : house_payment = Game_Manager.instance.Player.House_Loan;
             bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
         }
         unlock_increment();
@@ -724,7 +766,7 @@ public class Game : MonoBehaviour
         {
             house_payment -= 800;
             bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
-            if (house_payment == 0)
+            if (house_payment <= 0)
             {
                 h_dec.GetComponent<Button>().interactable = false;
             }
@@ -733,7 +775,7 @@ public class Game : MonoBehaviour
         {
             house_payment -= 1200;
             bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
-            if (house_payment == 0)
+            if (house_payment <= 0)
             {
                 h_dec.GetComponent<Button>().interactable = false;
             }
@@ -742,7 +784,7 @@ public class Game : MonoBehaviour
         {
             house_payment -= 2500;
             bank_tab.GetComponentsInChildren<Text>()[6].text = "$" + house_payment.ToString("N0");
-            if (house_payment == 0)
+            if (house_payment <= 0)
             {
                 h_dec.GetComponent<Button>().interactable = false;
             }
@@ -752,22 +794,28 @@ public class Game : MonoBehaviour
 
     public void increment_car_payment()
     {
+        if (Game_Manager.instance.Player.Car_Loan == 0)
+        {
+            c_dec.GetComponent<Button>().interactable = false;
+            return;
+        }
         if (Game_Manager.instance.Player.Player_Car.Name == "pos_car")
         {
+            
             c_dec.GetComponent<Button>().interactable = true;
-            car_payment += 200;
+            car_payment = (car_payment + 200 < Game_Manager.instance.Player.Car_Loan) ? car_payment + 200 : car_payment = Game_Manager.instance.Player.Car_Loan;
             bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
         }
         else if (Game_Manager.instance.Player.Player_Car.Name == "decent")
         {
             c_dec.GetComponent<Button>().interactable = true;
-            car_payment += 300;
+            car_payment = (car_payment + 300 < Game_Manager.instance.Player.Car_Loan) ? car_payment + 300 : car_payment = Game_Manager.instance.Player.Car_Loan;
             bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
         }
         else
         {
             c_dec.GetComponent<Button>().interactable = true;
-            car_payment += 500;
+            car_payment = (car_payment + 500 < Game_Manager.instance.Player.Car_Loan) ? car_payment + 300 : car_payment = Game_Manager.instance.Player.Car_Loan;
             bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
         }
         unlock_increment();
@@ -777,9 +825,14 @@ public class Game : MonoBehaviour
     {
         if(Game_Manager.instance.Player.Player_Car.Name == "pos_car")
         {
+            if (Game_Manager.instance.Player.Car_Loan == 0)
+            {
+                c_dec.GetComponent<Button>().interactable = false;
+                return;
+            }
             car_payment -= 200;
             bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
-            if (car_payment == 0)
+            if (car_payment <= 0)
             {
                 c_dec.GetComponent<Button>().interactable = false;
             }
@@ -788,7 +841,7 @@ public class Game : MonoBehaviour
         {
             car_payment -= 300;
             bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
-            if (car_payment == 0)
+            if (car_payment <= 0)
             {
                 c_dec.GetComponent<Button>().interactable = false;
             }
@@ -797,7 +850,7 @@ public class Game : MonoBehaviour
         {
             car_payment -= 500;
             bank_tab.GetComponentsInChildren<Text>()[8].text = "$" + car_payment.ToString("N0");
-            if (car_payment == 0)
+            if (car_payment <= 0)
             {
                 c_dec.GetComponent<Button>().interactable = false;
             }
@@ -809,7 +862,7 @@ public class Game : MonoBehaviour
     {
         if (Game_Manager.instance.Player.Degree == "Bachelor's")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 150)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 150 || Game_Manager.instance.Player.Student_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[1].interactable = false;
             }
@@ -820,7 +873,7 @@ public class Game : MonoBehaviour
         }
         else if (Game_Manager.instance.Player.Degree == "Master's")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 250)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 250 || Game_Manager.instance.Player.Student_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[1].interactable = false;
             }
@@ -831,7 +884,7 @@ public class Game : MonoBehaviour
         }
         else if (Game_Manager.instance.Player.Degree == "Doctorate")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 350)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 350 || Game_Manager.instance.Player.Student_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[1].interactable = false;
             }
@@ -843,7 +896,7 @@ public class Game : MonoBehaviour
 
         if (Game_Manager.instance.Player.Player_House.Neighborhood == "Sketchy")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 800)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 800 || Game_Manager.instance.Player.House_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[2].interactable = false;
             }
@@ -854,7 +907,7 @@ public class Game : MonoBehaviour
         }
         else if (Game_Manager.instance.Player.Player_House.Neighborhood == "Decent")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 1200)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 1200 || Game_Manager.instance.Player.House_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[2].interactable = false;
             }
@@ -865,7 +918,7 @@ public class Game : MonoBehaviour
         }
         else if (Game_Manager.instance.Player.Player_House.Neighborhood == "Prime")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 2500)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 2500 || Game_Manager.instance.Player.House_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[2].interactable = false;
             }
@@ -877,7 +930,7 @@ public class Game : MonoBehaviour
 
         if (Game_Manager.instance.Player.Player_Car.Name == "pos_car")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 200)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 200 || Game_Manager.instance.Player.Car_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[4].interactable = false;
             }
@@ -888,7 +941,7 @@ public class Game : MonoBehaviour
         }
         else if (Game_Manager.instance.Player.Player_Car.Name == "decent")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 300)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 300 || Game_Manager.instance.Player.Car_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[4].interactable = false;
             }
@@ -899,7 +952,7 @@ public class Game : MonoBehaviour
         }
         else if (Game_Manager.instance.Player.Player_Car.Name == "nice_car")
         {
-            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 500)
+            if (Game_Manager.instance.Player.Checking_Account < (student_payment + house_payment + car_payment) + 500 || Game_Manager.instance.Player.Car_Loan == 0)
             {
                 bank_tab.GetComponentsInChildren<Button>()[4].interactable = false;
             }
@@ -920,24 +973,24 @@ public class Game : MonoBehaviour
         Game_Manager.instance.Player.Debt += (student_payment + house_payment + car_payment);
         top.GetComponentsInChildren<Text>()[2].text = Game_Manager.instance.Player.Debt.ToString("N0");
 
-        if (student_payment > 0)
+        if (student_payment > 0 || Game_Manager.instance.Player.Student_Loan == 0)
         {
             monthly_student_loan_payment = true;
             s_check.transform.localPosition = s_check_location;
         }
 
-        if (house_payment > 0)
+        if (house_payment > 0 || Game_Manager.instance.Player.House_Loan == 0)
         {
             monthly_house_payment = true;
             h_check.transform.localPosition = h_check_location;
         }
 
-        if (car_payment > 0)
+        if (car_payment > 0 || Game_Manager.instance.Player.Car_Loan == 0)
         {
             monthly_car_payment = true;
             c_check.transform.localPosition = c_check_location;
         }
-
+        
 
         open_bank();
     }
@@ -962,6 +1015,7 @@ public class Game : MonoBehaviour
         side.GetComponentsInChildren<Text>()[5].fontSize = Game_Manager.instance.Font_Size;
         side.GetComponentsInChildren<Text>()[6].fontSize = Game_Manager.instance.Font_Size;
         side.GetComponentsInChildren<Text>()[7].fontSize = Game_Manager.instance.Font_Size;
+        side.GetComponentsInChildren<Text>()[8].fontSize = Game_Manager.instance.Font_Size;
 
 
         bottom.GetComponentsInChildren<Text>()[0].fontSize = Game_Manager.instance.Font_Size;
@@ -1027,9 +1081,9 @@ public class Game : MonoBehaviour
 
     private void set_side_values()
     {
-
         side.GetComponentsInChildren<Text>()[5].text = Game_Manager.instance.Player.Player_Job.Name;
         side.GetComponentsInChildren<Text>()[7].text = Game_Manager.instance.Player.Player_Job.Hourly_Wage + "/hour";
+        side.GetComponentsInChildren<Text>()[8].text = "Checking Account: $" + Game_Manager.instance.Player.Checking_Account.ToString();
     }
 
     private void alter_bar_values()

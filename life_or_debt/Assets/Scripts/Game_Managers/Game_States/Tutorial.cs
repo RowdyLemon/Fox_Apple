@@ -158,7 +158,8 @@ public class Tutorial : MonoBehaviour
                 break;
             case "bar":
                 bar_bubble.transform.localPosition = off_screen;
-                name_bubble.transform.localPosition = player;
+                Game_Manager.instance.current_state = Game_Manager.Game_States.START;
+                Game_Manager.instance.scene_loaded = false;
                 break;
         }
     }

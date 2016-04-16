@@ -4,7 +4,7 @@ using System.Collections;
 public class House : MonoBehaviour {
 
     public string Neighborhood;
-    public int Sell_Value;
+    public int Min_Payment;
     public int Buy_Value;
     public int Size;
     House Small_House;
@@ -13,15 +13,15 @@ public class House : MonoBehaviour {
 
     public House()
     {
-        Small_House = new House("Sketchy", 25000, 50000);
-        Medium_House = new House("Decent", 75000, 150000);
-        Large_House = new House("Prime", 250000, 400000);
+        Small_House = new House("Sketchy", 800, 50000);
+        Medium_House = new House("Decent", 1200, 150000);
+        Large_House = new House("Prime", 2500, 400000);
     }
 
-    public House(string neighborhood, int sell_value, int buy_value)
+    public House(string neighborhood, int min_payment, int buy_value)
     {
         Neighborhood = neighborhood;
-        Sell_Value = sell_value;
+        Min_Payment = min_payment;
         Buy_Value = buy_value;
         //Size = 0;
     }
