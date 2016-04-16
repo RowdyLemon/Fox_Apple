@@ -634,12 +634,6 @@ public class Game : MonoBehaviour
             set_side_values(); 
         }
 
-        if(Game_Manager.instance.Player.Debt == 0)
-        {
-            Game_Manager.instance.current_state = Game_Manager.Game_States.WIN_SCENE;
-            Game_Manager.instance.scene_loaded = false;
-        }
-
         if(day % 30 == 0 && day > 1 && (!same_day))
         {
             if (monthly_car_payment)
@@ -984,6 +978,8 @@ public class Game : MonoBehaviour
                 bank_tab.GetComponentsInChildren<Button>()[4].interactable = true;
             }
         }
+
+        loan_paid_off();
     }
 
     public void pay_loans()
@@ -1014,8 +1010,14 @@ public class Game : MonoBehaviour
             c_check.transform.localPosition = c_check_location;
         }
         loan_paid_off();
-
+        set_side_values();
         open_bank();
+
+        if (Game_Manager.instance.Player.Debt == 0)
+        {
+            Game_Manager.instance.current_state = Game_Manager.Game_States.WIN_SCENE;
+            Game_Manager.instance.scene_loaded = false;
+        }
     }
 
     private void lose()
@@ -1035,13 +1037,11 @@ public class Game : MonoBehaviour
         {
             s_dec.GetComponent<Button>().interactable = false;
             s_inc.GetComponent<Button>().interactable = false;
-            return;
         }
         if (Game_Manager.instance.Player.Car_Loan == 0)
         {
             c_dec.GetComponent<Button>().interactable = false;
             c_inc.GetComponent<Button>().interactable = false;
-            return;
         }
     }
 
