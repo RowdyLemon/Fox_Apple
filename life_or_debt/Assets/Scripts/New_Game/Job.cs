@@ -173,22 +173,22 @@ public class Job {
         Salaries.Add("Project Manager", 100);
 
         // Assistant College Professor
-        Salaries.Add("Assistant College Professor", 4000);
-        Salaries.Add("Associate College Professor", 4500);
-        Salaries.Add("College Professor", 5000);
-        Salaries.Add("Dean", 8000);
+        Salaries.Add("Assistant College Professor", 40);
+        Salaries.Add("Associate College Professor", 45);
+        Salaries.Add("College Professor", 50);
+        Salaries.Add("Dean", 80);
 
         // General Practitioner
-        Salaries.Add("General Practitioner", 8000);
-        Salaries.Add("Medical Specialist", 10000);
-        Salaries.Add("Surgeon", 11000);
-        Salaries.Add("Cheif of Staff", 13000);
+        Salaries.Add("General Practitioner", 80);
+        Salaries.Add("Medical Specialist", 100);
+        Salaries.Add("Surgeon", 110);
+        Salaries.Add("Cheif of Staff", 130);
 
         // Aerospace Engineer
-        Salaries.Add("Aerospace Engineer", 10000);
-        Salaries.Add("Senior Engineer", 12000);
-        Salaries.Add("Flight Crew", 15000);
-        Salaries.Add("NASA Administrator", 18000);
+        Salaries.Add("Aerospace Engineer", 100);
+        Salaries.Add("Senior Engineer", 120);
+        Salaries.Add("Flight Crew", 150);
+        Salaries.Add("NASA Administrator", 180);
     }
 
     public void Promotion()
