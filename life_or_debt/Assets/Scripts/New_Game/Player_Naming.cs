@@ -24,6 +24,9 @@ public class Player_Naming : MonoBehaviour
         {
             Game_Manager.instance.Player.Name = "Bitch";
         }
+        if (iField.text.ToLower() == "donald trump")
+            Game_Manager.instance.Player.Checking_Account += 1000;
+
         Game_Manager.instance.current_state = Game_Manager.Game_States.PERSONALITY_QUIZ;
         Game_Manager.instance.scene_loaded = false;
     }
