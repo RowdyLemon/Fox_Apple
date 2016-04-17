@@ -17,12 +17,6 @@ public class Game : MonoBehaviour
     public GameObject work_or_fun_tab;
     public GameObject modal_panel;
     public GameObject fridge_tab;
-    public GameObject couch;
-    public GameObject car;
-    public GameObject tv;
-    public GameObject cheap_bed;
-    public GameObject gold_fish;
-    public GameObject couch2;
 
     public GameObject player_house;
 
@@ -40,12 +34,6 @@ public class Game : MonoBehaviour
     private Vector3 life_event_on_screen;
 
     private Vector2 house_on_screen;
-
-    private Vector2 couch_on_screen;
-    private Vector2 couch2_on_screen;
-    private Vector2 televsion_on_screen;
-    private Vector2 bed_on_screen;
-
 
     private Vector2 s_check_location;
     private Vector2 h_check_location;
@@ -174,7 +162,6 @@ public class Game : MonoBehaviour
         c_check.transform.localPosition = off_screen;
         h_check.transform.localPosition = off_screen;
         s_check.transform.localPosition = off_screen;
-        tv.transform.localPosition = off_screen;
 
         bank_tab.transform.localPosition = off_screen;
         modal_panel.transform.localPosition = off_screen;

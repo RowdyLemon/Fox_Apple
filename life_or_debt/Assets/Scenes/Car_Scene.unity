@@ -1116,7 +1116,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Minimum Payment: $300 \n+5 Happiness"
+  m_Text: "Minimum Payment: $300 \n\n+5 Happiness"
 --- !u!222 &1742225717
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1172,7 +1172,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Minimum Payment: $500 \n+15 Happiness"
+  m_Text: "Minimum Payment: $500 \n\n+15 Happiness"
 --- !u!222 &1769290054
 CanvasRenderer:
   m_ObjectHideFlags: 0
