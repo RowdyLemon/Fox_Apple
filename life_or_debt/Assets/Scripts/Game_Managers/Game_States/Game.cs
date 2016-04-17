@@ -17,13 +17,15 @@ public class Game : MonoBehaviour
     public GameObject work_or_fun_tab;
     public GameObject modal_panel;
     public GameObject fridge_tab;
-
     public GameObject couch;
     public GameObject car;
     public GameObject tv;
     public GameObject cheap_bed;
     public GameObject gold_fish;
     public GameObject couch2;
+
+    public GameObject player_house;
+
     public GameObject Min_Student;
     public GameObject Min_House;
     public GameObject Min_Car;
@@ -32,10 +34,10 @@ public class Game : MonoBehaviour
 
     private Vector3 off_screen;
     private Vector3 on_screen;
-    private Vector2 modal_on_screen;
+    private Vector3 modal_on_screen;
     private Vector3 fridge_on_screen;
     private Vector2 gold_fish_on_screen;
-    private Vector2 life_event_on_screen;
+    private Vector3 life_event_on_screen;
 
     private Vector2 house_on_screen;
 
@@ -108,12 +110,21 @@ public class Game : MonoBehaviour
         job_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         health_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
 
-        if(Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+        if (Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+        {
+            player_house.GetComponent<Image>().sprite = Resources.Load("Sprites/small_house", typeof(Sprite)) as Sprite;
             small_house.GetComponentsInChildren<Image>()[2].sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
-        else if(Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+        }
+        else if (Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+        {
+            player_house.GetComponent<Image>().sprite = Resources.Load("Sprites/Medium_House", typeof(Sprite)) as Sprite;
             medium_house.GetComponentsInChildren<Image>()[2].sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
+        }
         else
+        {
+            player_house.GetComponent<Image>().sprite = Resources.Load("Sprites/Large_House", typeof(Sprite)) as Sprite;
             large_house.GetComponentsInChildren<Image>()[2].sprite = Resources.Load("Sprites/UI/Car/" + Game_Manager.instance.Player.Player_Car.Name, typeof(Sprite)) as Sprite;
+        }
 
         alter_bar_values();
         day = 0;

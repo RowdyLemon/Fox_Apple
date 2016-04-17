@@ -17,16 +17,33 @@ public class Player_Roam : MonoBehaviour
     void Start()
     {
         time_change = 0;
-        //xmin = transform.localPosition.x - 1.8f;
-        //xmax = transform.localPosition.x + 2.0f;
-        //ymin = transform.localPosition.y - 1.5f;
-        //ymax = transform.localPosition.y + 1.0f;
-        xmin = -4f;
-        xmax = -1.6f;
-        //xmax = 3.8f;
-        ymin = -1.0f;
-        //ymin = -0.2f;
-        ymax = 1.5f;
+
+        if (Game_Manager.instance.Player.Player_House.Min_Payment == 800)
+        {
+            xmin = -3.59f;
+            xmax = -0.4f;
+            ymin = -0.24f;
+            ymax = 2.27f;
+        }
+        else if (Game_Manager.instance.Player.Player_House.Min_Payment == 1200)
+        {
+            xmin = -3.63f;
+            xmax = -0.74f;
+            ymin = -0.21f;
+            ymax = 2.32f;
+        }
+        else
+        {
+            xmin = -3.65f;
+            xmax = -0.78f;
+            ymin = -0.18f;
+            ymax = 2.33f;
+        }
+
+        //xmin = -4f;
+        //xmax = -1.6f;
+        //ymin = -1.0f;
+        //ymax = 1.5f;
         Wander();
     }
 
@@ -35,19 +52,17 @@ public class Player_Roam : MonoBehaviour
         if(Time.time >= time_change)
         {
             Wander();
-            time_change = Time.time + 1/*Random.Range(0.5f, 1.5f)*/;
+            time_change = Time.time + 15;
         }
         transform.Translate(wayPoint * Speed * Time.deltaTime);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 89.5f);
         if(transform.localPosition.x >= xmax || transform.localPosition.x <= xmin)
         {
             wayPoint = new Vector3(-wayPoint.x, wayPoint.y, wayPoint.z);
-            //Wander();
         }
         if (transform.localPosition.y >= ymax || transform.localPosition.y <= ymin)
         {
             wayPoint = new Vector3(wayPoint.x, -wayPoint.y, wayPoint.z);
-            //Wander();
         }
         float xclamp = Mathf.Clamp(transform.localPosition.x, xmin, xmax);
         float yclamp = Mathf.Clamp(transform.localPosition.y, ymin, ymax);
