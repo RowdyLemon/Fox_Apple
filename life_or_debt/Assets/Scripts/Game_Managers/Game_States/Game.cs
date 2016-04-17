@@ -212,11 +212,7 @@ public class Game : MonoBehaviour
 
     public void entertainment(Entertainment_Param entertainment_param)
     {
-        if (!checking_account_check(entertainment_param.cost))
-        {
-            Debug.Log("Insuffcient funds");
-            return;
-        }
+       
 
         int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
         int rest_val = (int)(rest_change * 5);
@@ -229,6 +225,12 @@ public class Game : MonoBehaviour
         alter_bar_values();
         set_top_values();
         set_side_values();
+
+        if (!checking_account_check(entertainment_param.cost))
+        {
+            work_or_fun_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+            return;
+        }
     }
 
     public void work(int amount)
