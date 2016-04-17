@@ -223,11 +223,7 @@ public class Game : MonoBehaviour
 
     public void entertainment(Entertainment_Param entertainment_param)
     {
-        if (!checking_account_check(entertainment_param.cost))
-        {
-            Debug.Log("Insuffcient funds");
-            return;
-        }
+       
 
         int happiness_val = (int)(happiness_change * entertainment_param.happiness_change);
         int rest_val = (int)(rest_change * 5);
@@ -240,6 +236,12 @@ public class Game : MonoBehaviour
         alter_bar_values();
         set_top_values();
         set_side_values();
+
+        if (!checking_account_check(entertainment_param.cost))
+        {
+            work_or_fun_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+            return;
+        }
     }
 
     public void work(int amount)
@@ -517,6 +519,10 @@ public class Game : MonoBehaviour
     {
         modal_panel.transform.localPosition = modal_on_screen;
         work_or_fun_tab.transform.localPosition = on_screen;
+        if (Game_Manager.instance.Player.Checking_Account < 100)
+            work_or_fun_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+        else
+            work_or_fun_tab.GetComponentsInChildren<Button>()[2].interactable = true;
     }
 
     public void close_work_or_fun()
@@ -723,6 +729,7 @@ public class Game : MonoBehaviour
             string r_event = random_event.Execute_Event();
             if(!r_event.Equals(""))
             {
+                work_or_fun_tab.transform.localPosition = off_screen;
                 modal_panel.transform.localPosition = modal_on_screen;
                 Life_Event.transform.localPosition = life_event_on_screen;
                 Life_Event.GetComponentsInChildren<Text>()[2].text = r_event;
