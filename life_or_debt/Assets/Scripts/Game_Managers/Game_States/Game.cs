@@ -506,6 +506,10 @@ public class Game : MonoBehaviour
     {
         modal_panel.transform.localPosition = modal_on_screen;
         work_or_fun_tab.transform.localPosition = on_screen;
+        if (Game_Manager.instance.Player.Checking_Account < 100)
+            work_or_fun_tab.GetComponentsInChildren<Button>()[2].interactable = false;
+        else
+            work_or_fun_tab.GetComponentsInChildren<Button>()[2].interactable = true;
     }
 
     public void close_work_or_fun()
@@ -712,6 +716,7 @@ public class Game : MonoBehaviour
             string r_event = random_event.Execute_Event();
             if(!r_event.Equals(""))
             {
+                work_or_fun_tab.transform.localPosition = off_screen;
                 modal_panel.transform.localPosition = modal_on_screen;
                 Life_Event.transform.localPosition = life_event_on_screen;
                 Life_Event.GetComponentsInChildren<Text>()[2].text = r_event;
