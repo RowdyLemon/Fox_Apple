@@ -123,12 +123,6 @@ MonoBehaviour:
   work_or_fun_tab: {fileID: 2147025342}
   modal_panel: {fileID: 1247635164}
   fridge_tab: {fileID: 1050068790}
-  couch: {fileID: 1781288141}
-  car: {fileID: 2111258157}
-  tv: {fileID: 2052248038}
-  cheap_bed: {fileID: 1160466402}
-  gold_fish: {fileID: 1145565926}
-  couch2: {fileID: 1281344067}
   player_house: {fileID: 360884324}
   Min_Student: {fileID: 579868905}
   Min_House: {fileID: 590975619}
@@ -945,12 +939,21 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 451104, guid: 69dfe38222773974b955824f92f82a80, type: 2}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 451104, guid: 69dfe38222773974b955824f92f82a80, type: 2}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9572122, guid: 69dfe38222773974b955824f92f82a80, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a2c2dfb6354aba742a40951bf5b3159e, type: 2}
+    - target: {fileID: 21287326, guid: 69dfe38222773974b955824f92f82a80, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 85f8aac68dac88442a2d3db4af88cc07,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69dfe38222773974b955824f92f82a80, type: 2}
   m_IsPrefabParent: 0

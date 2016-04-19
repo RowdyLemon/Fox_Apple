@@ -98,6 +98,11 @@ public class Game : MonoBehaviour
         job_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         health_bar.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
 
+        // Load Sound
+        GameObject sound = GameObject.Find("GameManager");
+        sound.GetComponent<AudioSource>().clip = Resources.Load("LevelSong", typeof(AudioClip)) as AudioClip;
+        sound.GetComponent<AudioSource>().Play();
+
         if (Game_Manager.instance.Player.Player_House.Min_Payment == 800)
         {
             player_house.GetComponent<Image>().sprite = Resources.Load("Sprites/small_house", typeof(Sprite)) as Sprite;

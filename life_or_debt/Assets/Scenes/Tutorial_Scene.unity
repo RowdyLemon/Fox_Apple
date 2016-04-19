@@ -2710,7 +2710,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Here you can view their account balance and pay loans
+  m_Text: Here you can view your account balance and pay loans
 --- !u!222 &1245089844
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class Game_Manager : MonoBehaviour
 {
-
     public enum Game_States
     {
         START,
@@ -53,6 +52,7 @@ public class Game_Manager : MonoBehaviour
     {
         font_size = (int)(Screen.width * 0.018f);
     }
+
 
 	// Update is called once per frame
 	void Update ()
